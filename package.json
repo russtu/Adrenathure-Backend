@@ -1,0 +1,19 @@
+{
+  "name": "proyecto-experiencias-diferentes",
+  "version": "1.0.0",
+  "description": "proyecto-final-HAB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zuzascreations/Proyecto-Experiencias-Diferentes.git"
+  },
+  "author": "Ruben, Zuzana, Carlos, Manuel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zuzascreations/Proyecto-Experiencias-Diferentes/issues"
+  },
+  "homepage": "https://github.com/zuzascreations/Proyecto-Experiencias-Diferentes#readme"
+}
