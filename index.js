@@ -1,8 +1,7 @@
 const express = require('express')
 require('dotenv').config()
 const mysqlUsersRepository = require('./repositories/mysql/mysqlUsersRepository')
-
-
+const mysqlPlacesRepository = require('./repositories/mysql/mysqlPlacesRepository')
 
 
 const app = express()
@@ -48,6 +47,78 @@ app.post('/users', async (req, res) => {
 
 
 
+// 10. PLACES. GET /places
+
+app.get('/places', async (req, res) => {
+    let places
+    try {
+        places = await mysqlPlacesRepository.getPlaces()
+
+    } catch (error) {
+        res.status('500')
+        res.end(error)
+        return
+    }
+
+    if (!places) {
+        res.status(404)
+        res.end('No places found')
+        return
+    }
+
+    res.status(200)
+    res.send(places)
+})
+
+
+// 11. PLACES. GET /places/recommended
+
+app.get('/places/recommended', async (req, res) => {
+
+    let places
+    try {
+        places = await mysqlPlacesRepository.getPlacesRecommended()
+
+    } catch (error) {
+        res.status('500')
+        res.end(error)
+        return
+    }
+
+    if (!places) {
+        res.status(404)
+        res.end('No places')
+        return
+    }
+
+    res.status(200)
+    res.send(places)
+})
+
+
+// 12. PLACES. GET /places/:placeId
+
+app.get('/places/:placeId', async (req, res) => {
+
+    const { placeId } = req.params
+    let place
+    try {
+        place = await mysqlPlacesRepository.getPlacesById(placeId)
+    } catch(error) {
+        res.status('500')
+        res.end(error)
+        return
+    }
+
+    if (!place) {
+        res.status(404)
+        res.end('No places')
+        return
+    }
+
+    res.status(200)
+    res.send(place)
+})
 
 
 
