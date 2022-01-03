@@ -47,7 +47,7 @@ app.post('/users', async (req, res) => {
 
 
 
-// 10. destinos. GET /places. Retorna: todos los places y los places donde recommended === true
+// 10. PLACES. GET /places
 
 app.get('/places', async (req, res) => {
     let places
@@ -71,7 +71,7 @@ app.get('/places', async (req, res) => {
 })
 
 
-// 11. destinos -> destino recomendado. GET /places/recommended . Retorna: todos los places destacados (recommeded === true) y el mapa
+// 11. PLACES. GET /places/recommended
 
 app.get('/places/recommended', async (req, res) => {
 
@@ -96,10 +96,10 @@ app.get('/places/recommended', async (req, res) => {
 })
 
 
-// 12. destinos -> destino en concreto. GET /places/:placeId. Retorna: todos place en concreto con las experiencias pertenecientes a ete destino
+// 12. PLACES. GET /places/:placeId
 
 app.get('/places/:placeId', async (req, res) => {
-    //const places = await mysqlPlacesRepository.getPlacesById(req.params.placeId)
+
     const { placeId } = req.params
     let place
     try {
@@ -119,8 +119,6 @@ app.get('/places/:placeId', async (req, res) => {
     res.status(200)
     res.send(place)
 })
-
-
 
 
 
