@@ -29,9 +29,17 @@ const emailConfirmation = async ( registrationCode ) => {
     return true
 }
 
+const getUserByEmail = async (userEmail) => {
+    const result = await connection.query("SELECT * FROM users WHERE email = ?", [userEmail])
+
+    return result[0] && result[0][0]
+  }
+
+
 
 module.exports = {
     saveUser,
     emailConfirmation,
-    userExists
+    userExists,
+    getUserByEmail
 }
