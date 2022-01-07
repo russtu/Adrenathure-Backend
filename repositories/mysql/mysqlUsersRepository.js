@@ -29,6 +29,7 @@ const emailConfirmation = async ( registrationCode ) => {
     return true
 }
 
+
 const getUserByEmail = async (userEmail) => {
     const result = await connection.query("SELECT * FROM users WHERE email = ?", [userEmail])
 
@@ -36,10 +37,26 @@ const getUserByEmail = async (userEmail) => {
   }
 
 
+const getUserById = async (userId) => {
+    const result = await connection.query("SELECT * FROM users WHERE id = ?", [userId])
+
+    return result[0][0]
+}
+
+
+const editUser = async (user, userId) => {
+    console.log(user)
+    console.log(userId)
+    const result = await connection.query("UPDATE users SET firstName = ?, lastName = ?, email = ?, password = ? WHERE id = ?", [user.firstName, user.lastName, user.email, user.password, userId])
+
+}
+
 
 module.exports = {
     saveUser,
     emailConfirmation,
     userExists,
-    getUserByEmail
+    getUserByEmail,
+    editUser,
+    getUserById
 }
