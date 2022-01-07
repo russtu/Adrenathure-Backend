@@ -1,26 +1,59 @@
 const crypto = require("crypto")
 const express = require('express')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const fileUpload = require('express-fileupload')
 require('dotenv').config()
 const mysqlUsersRepository = require('./repositories/mysql/mysqlUsersRepository')
 const userSchema = require('./validationSchemas/userSchema')
+const loginSchema = require('./validationSchemas/loginSchema')
 const emailSender = require('./notifiers/emailSender')
 const mysqlPlacesRepository = require('./repositories/mysql/mysqlPlacesRepository')
 const mysqlExperiencesRepository = require('./repositories/mysql/mysqlExperiencesRepository')
 const experienceSchema = require('./validationSchemas/experienceSchema')
 
 
-
 const app = express()
 
 app.use(express.json())
 
+app.use('/public', express.static('uploads'))
+app.use(fileUpload())
+
 
 // CONSTANTES
-const {BASE_URL, PORT, SALT_ROUNDS  } = process.env
+const { BASE_URL, PORT, SALT_ROUNDS, JWT_PRIVATE_KEY, JWT_EXPIRES_AFTER  } = process.env
 
 // MIDDLEWARES
 // ===========
+
+// AUTHORIZATION
+const isAuthorized = (req, res, next) => {
+    const bearerToken = req.headers.authorization
+
+    if (!bearerToken) {
+        res.status(401)
+        res.end('You are not authorized')
+        return
+    }
+
+    const token = bearerToken.replace('Bearer ', '')
+
+    let decodedToken
+
+    try {
+        decodedToken = jwt.verify(token, JWT_PRIVATE_KEY)
+    } catch (error) {
+        res.status(401)
+        res.end('Expired or invalid token')
+        return
+    }
+
+    req.user = { ...decodedToken.user }
+
+    next()
+}
+
 
 // USER REGISTRATION
 app.post('/users', async (req, res) => {
@@ -81,6 +114,7 @@ app.post('/users', async (req, res) => {
     res.send('User successfully registered')
 })
 
+
 // EMAIL VALIDATION
 app.get('/users/validate/:registrationCode', async (req, res) => {
     const { registrationCode } = req.params
@@ -102,14 +136,23 @@ app.get('/users/validate/:registrationCode', async (req, res) => {
     res.end('Account activated')
 })
 
+
 // LOGIN
-app.post('/auth/login', async (req, res) => {
+app.post('/users/login', async (req, res) => {
     const credentials = req.body
 
     if (!credentials.email || !credentials.password) {
       res.status(400)
       res.end('You should provide an email and password')
       return
+    }
+
+    try {
+        await loginSchema.validateAsync(credentials)
+    } catch (error) {
+        res.status(404)
+        res.end(error.message)
+        return
     }
 
     let user
@@ -134,13 +177,86 @@ app.post('/auth/login', async (req, res) => {
     }
 
     const token = jwt.sign({
-      exp: Math.floor(Date.now() / 1000) + JWT_EXPIRES_AFTER,
-      user: { id: user.id }
+      exp: Math.floor(Date.now() / 1000) + Number(JWT_EXPIRES_AFTER),
+      user: { id: user.id, role: user.role }
     }, JWT_PRIVATE_KEY);
 
     res.status(200)
     res.send({ token })
   })
+
+
+// GET USER BY ID
+app.get('/users/profile', isAuthorized, async (req, res) => {
+    const userId = req.user.id
+
+    let user
+    try {
+        user = await mysqlUsersRepository.getUserById(userId)
+    } catch (error) {
+        res.status(401)
+        res.end('Expired or invalid token')
+        return
+    }
+
+    const { firstName, lastName, email, password } = user
+
+    userToReturn = { firstName, lastName, email, password: '********' }
+
+    res.status (200)
+    res.send(userToReturn)
+    // next()
+})
+
+
+// EDIT USER
+app.put('/users', isAuthorized, async (req, res) => {
+    const userId = req.user.id
+    const user = req.body
+
+    try {
+        await userSchema.validateAsync(user)
+    } catch (error) {
+        res.status(404)
+        res.end(error.message)
+        return
+    }
+
+    let encryptedPassword
+    try {
+        encryptedPassword = await bcrypt.hash(user.password, Number(SALT_ROUNDS))
+    } catch (error) {
+        res.status(500)
+        res.end('Unexpected error')
+        return
+    }
+
+    let editedUser
+    try {
+        editedUser = await mysqlUsersRepository.editUser({ ...user, password: encryptedPassword }, userId)
+    } catch (error) {
+        res.status(500)
+        res.end('Database error')
+        return
+    }
+
+    console.log(editedUser)
+    res.status(200)
+    res.end('User data edited')
+    // next()
+})
+
+
+// AVATAR UPLOAD
+app.post('/users/uploads', isAuthorized, (req,res) => {
+    const userId = req.user.id
+
+    const avatar = req.files.avatar
+
+    avatar.mv(`./uploads/${userId}-${avatar.name}`)
+
+    res.send('OK')
+})
 
 // GET ALL EXPERIENCES
 app.get('/experiences', async (req, res) => {
@@ -163,10 +279,10 @@ app.get('/experiences', async (req, res) => {
 
     res.status(200)
     res.send(experiences)
-
 })
 
-//GET EXPERIENCES BY ID
+
+// GET EXPERIENCE BY ID
 app.get('/experiences/:experienceId', async (req, res) => {
     const experienceId = Number (req.params.experienceId)
 
@@ -179,28 +295,28 @@ app.get('/experiences/:experienceId', async (req, res) => {
         res.end('database error')
         return
     }
+
     if(!experience){
         res.status(404)
         res.end('there are not data')
         return
     }
 
-
     res.status(200)
     res.send(experience)
-
 })
 
-// CREATE NEW EXPERIENCES
-app.post('/experiences', async (req, res) => {
 
+// CREATE NEW EXPERIENCE
+app.post('/experiences', isAuthorized, async (req, res) => {
     const experienceData = req.body
-    console.log(experienceData)
+
     if(!experienceData) {
         res.status(404)
         res.end('there are not data')
 
     }
+
     try {
         await experienceSchema.validateAsync(experienceData)
     } catch (error) {
@@ -208,15 +324,16 @@ app.post('/experiences', async (req, res) => {
         res.end(error.message)
         return
     }
+
     let experience
     try {
         experience = await mysqlExperiencesRepository.createExperience(experienceData)
-
     } catch (error) {
         res.status(500)
         res.end(error.message)
         return
     }
+
     if(!experience){
         res.status(404)
         res.end(error.message)
@@ -225,11 +342,11 @@ app.post('/experiences', async (req, res) => {
 
     res.status(200)
     res.send('Experience created successfully')
-
 })
 
+
 // MODIFICAR EXPERIENCIA
-app.put('/experiences/:experienceId', async (req, res) => {
+app.put('/experiences/:experienceId', isAuthorized, async (req, res) => {
     const experienceData = req.body
     const experienceId = req.params.experienceId
 
@@ -238,6 +355,7 @@ app.put('/experiences/:experienceId', async (req, res) => {
       res.end('You should provide a valid user to save')
       return
     }
+
     try {
         await experienceSchema.validateAsync(experienceData)
       } catch (error) {
@@ -245,7 +363,6 @@ app.put('/experiences/:experienceId', async (req, res) => {
         res.end(error.message)
         return
       }
-
 
     let editedExperience
     try {
@@ -260,13 +377,14 @@ app.put('/experiences/:experienceId', async (req, res) => {
     res.send(`La experiencia ha sido modificada correctamente`)
   })
 
-// BARRA DE BUSQUEDA
-  app.get('/experiences-filter', async (req, res) => {
+
+// SEARCH EXPERIENCE
+app.get('/experiences-filter', async (req, res) => {
     const {place, date, lowPrice, highPrice} = req.query
+
     let experiences
     try {
         experiences = await mysqlExperiencesRepository.searchExperiences(place, date, lowPrice, highPrice)
-
     } catch (error) {
         res.status(500)
         res.end(error.message)
@@ -281,12 +399,10 @@ app.put('/experiences/:experienceId', async (req, res) => {
 
     res.status(200)
     res.send(experiences)
-
 })
 
-   
 
-// PLACES. GET /places
+// GET ALL PLACES
 app.get('/places', async (req, res) => {
     let places
     try {
@@ -309,7 +425,7 @@ app.get('/places', async (req, res) => {
 })
 
 
-// PLACES. GET /places/recommended
+// GET RECOMMENDED PLACES
 app.get('/places/recommended', async (req, res) => {
 
     let places
@@ -333,7 +449,7 @@ app.get('/places/recommended', async (req, res) => {
 })
 
 
-// PLACES. GET /places/:placeId
+// GET PLACE BY ID
 app.get('/places/:placeId', async (req, res) => {
 
     const { placeId } = req.params

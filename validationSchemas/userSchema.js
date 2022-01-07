@@ -27,10 +27,10 @@ const userSchema = Joi.object({
         .min(2)
         .max(30)
         .messages({
-            'any.required': '[username] is required',
-            'string.empty': '[username] is required',
-            'string.min': '[username] should be between 2 and 30 characters',
-            'string.max': '[username] should be between 2 and 30 characters'
+            'any.required': '[firstName] is required',
+            'string.empty': '[firstName] is required',
+            'string.min': '[firstName] should be between 2 and 30 characters',
+            'string.max': '[firstName] should be between 2 and 30 characters'
         }),
 
     lastName: Joi
@@ -39,10 +39,10 @@ const userSchema = Joi.object({
     .min(2)
     .max(30)
     .messages({
-        'any.required': '[username] is required',
-        'string.empty': '[username] is required',
-        'string.min': '[username] should be between 2 and 30 characters',
-        'string.max': '[username] should be between 2 and 30 characters'
+        'any.required': '[lastName] is required',
+        'string.empty': '[lastName] is required',
+        'string.min': '[lastName] should be between 2 and 30 characters',
+        'string.max': '[lastName] should be between 2 and 30 characters'
     }),
 
 })
