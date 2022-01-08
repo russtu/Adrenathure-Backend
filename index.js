@@ -13,7 +13,6 @@ const mysqlExperiencesRepository = require('./repositories/mysql/mysqlExperience
 const experienceSchema = require('./validationSchemas/experienceSchema')
 const mysqlReviewsRepository = require('./repositories/mysql/mysqlReviewsRepository')
 
-
 const app = express()
 
 app.use(express.json())
@@ -51,6 +50,18 @@ const isAuthorized = (req, res, next) => {
     }
 
     req.user = { ...decodedToken.user }
+
+    next()
+}
+
+const isAdmin = (req, res, next) => {
+    const { role } = req.user.role
+
+    if (!role === 'admin') {
+        res.status(401)
+        res.end('You need administrator permissions to enter this zone')
+        return
+    }
 
     next()
 }
@@ -259,6 +270,7 @@ app.post('/users/uploads', isAuthorized, (req,res) => {
     res.send('OK')
 })
 
+
 // GET ALL EXPERIENCES
 app.get('/experiences', async (req, res) => {
 
@@ -309,7 +321,7 @@ app.get('/experiences/:experienceId', async (req, res) => {
 
 
 // CREATE NEW EXPERIENCE
-app.post('/experiences', isAuthorized, async (req, res) => {
+app.post('/experiences', isAuthorized, isAdmin, async (req, res) => {
     const experienceData = req.body
 
     if(!experienceData) {
@@ -347,7 +359,7 @@ app.post('/experiences', isAuthorized, async (req, res) => {
 
 
 // MODIFICAR EXPERIENCIA
-app.put('/experiences/:experienceId', isAuthorized, async (req, res) => {
+app.put('/experiences/:experienceId', isAuthorized, isAdmin, async (req, res) => {
     const experienceData = req.body
     const experienceId = req.params.experienceId
 
@@ -475,13 +487,7 @@ app.get('/places/:placeId', async (req, res) => {
 
 // ALL BOOKINGS USER
 app.get('/users/booking', isAuthorized, async (req, res) => {
-
     const userId = req.user.id
-
-    // if (user === 'admin') {
-    //     res.status(400)
-    //     res.end('Only normal users')
-    // }
 
     let bookings
     try {
@@ -496,7 +502,7 @@ app.get('/users/booking', isAuthorized, async (req, res) => {
 })
 
 
-// SAVE BOOKINGS
+// SAVE BOOKING
 app.post('/users/:experience_id/booking', isAuthorized, async (req, res) => {
     const { reservedSeats, bookingDate  } = req.body
     const experience_id = req.params.experience_id
@@ -515,7 +521,7 @@ app.post('/users/:experience_id/booking', isAuthorized, async (req, res) => {
 })
 
 
-// GET BOOKINGS BY ID
+// GET BOOKING BY ID
 app.get('/users/booking/:bookingId', isAuthorized, async (req, res) => {
     const { bookingId } = req.params
 
@@ -534,7 +540,6 @@ app.get('/users/booking/:bookingId', isAuthorized, async (req, res) => {
 
 // ALL BOOKINGS ADMIN
 app.get('/users/admin/bookings', isAuthorized, isAdmin, async (req, res) => {
-
     let bookings
     try {
         bookings = await mysqlBookingsRepository.getUserAllBookings()
@@ -548,7 +553,7 @@ app.get('/users/admin/bookings', isAuthorized, isAdmin, async (req, res) => {
 })
 
 
-// GET BOOKING BY ID ADMIN
+// BOOKING BY ID ADMIN
 app.get('/users/admin/:bookingId', isAuthorized, isAdmin, async (req, res) => {
     const { bookingId } = req.params
 
@@ -566,7 +571,7 @@ app.get('/users/admin/:bookingId', isAuthorized, isAdmin, async (req, res) => {
 
 
 // POST A REVIEW
-app.post('/bookings/:booking_id/review', async (req, res) => {
+app.post('/bookings/:booking_id/review', isAuthorized, async (req, res) => {
     const { booking_id } = req.params
     const { vote } = req.body
 
@@ -599,7 +604,7 @@ app.post('/bookings/:booking_id/review', async (req, res) => {
 })
 
 
-// GET REVIEW MEDIA
+// GET REVIEW AVERAGE
 app.get('/reviews/:experience_id', async (req, res) => {
     const { experience_id } = req.params
 
