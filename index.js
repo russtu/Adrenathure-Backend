@@ -472,7 +472,105 @@ app.get('/places/:placeId', async (req, res) => {
     res.send(place)
 })
 
+// 6. BOOKINGS. GET/USER/BOOKINGS
 
+app.get('/users/booking', isAuthorized, async (req, res) => {
+
+    const userId = req.user.id
+
+    // if (user === 'admin') {
+    //     res.status(400)
+    //     res.end('Only normal users')
+    // }
+
+    let bookings
+    try {
+        bookings = await mysqlBookingsRepository.getUserBookings(userId)
+    } catch(error) {
+        res.status(400)
+        res.end(error.message)
+    }
+
+    res.status(200)
+    res.send(bookings)
+})
+
+
+
+// 6.1 BOOKINGS. GET/USER/BOOKINGS
+
+app.post('/users/:experience_id/booking', isAuthorized, async (req, res) => {
+    const { reservedSeats, bookingDate  } = req.body
+    const experience_id = req.params.experience_id
+    const userId = req.user.id
+    let booking
+
+
+    try {
+        booking = await mysqlBookingsRepository.postUserBooking(bookingDate, reservedSeats, experience_id, userId)
+    } catch(error) {
+        res.status(400)
+        res.end(error.message)
+    }
+
+
+    res.status(200)
+    res.send('La reserva se ha efectuado correctamente')
+
+})
+
+// 7. BOOKINGS. GET/USER/BOOKINGS/:bookingId
+
+app.get('/users/booking/:bookingId', isAuthorized, async (req, res) => {
+    const { bookingId } = req.params
+
+
+    let bookings
+    try {
+        bookings = await mysqlBookingsRepository.getUserBookingsById(bookingId)
+    } catch(error) {
+        res.status(400)
+        res.end(error.message)
+    }
+
+    res.status(200)
+    res.send(bookings)
+})
+
+
+// 8. BOOKINGS. GET/USER/ADMIN/BOOKINGS
+
+app.get('/users/admin/bookings', isAuthorized, isAdmin, async (req, res) => {
+
+
+    let bookings
+    try {
+        bookings = await mysqlBookingsRepository.getUserAllBookings()
+    } catch(error) {
+        res.status(400)
+        res.end(error.message)
+    }
+
+    res.status(200)
+    res.send(bookings)
+})
+
+// 9. BOOKINGS. GET /USER/ADMIN/BOOKINGS/:bookingId
+
+app.get('/users/admin/:bookingId', isAuthorized, isAdmin, async (req, res) => {
+    const { bookingId } = req.params
+
+    let bookings
+    try {
+        bookings = await mysqlBookingsRepository.getAdminBookingsById(bookingId)
+    } catch(error) {
+        res.status(400)
+        res.end(error.message)
+    }
+
+    res.status(200)
+    res.send(bookings)
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${BASE_URL}:${PORT}`)
