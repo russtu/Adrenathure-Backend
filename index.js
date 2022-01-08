@@ -11,6 +11,7 @@ const emailSender = require('./notifiers/emailSender')
 const mysqlPlacesRepository = require('./repositories/mysql/mysqlPlacesRepository')
 const mysqlExperiencesRepository = require('./repositories/mysql/mysqlExperiencesRepository')
 const experienceSchema = require('./validationSchemas/experienceSchema')
+const mysqlReviewsRepository = require('./repositories/mysql/mysqlReviewsRepository')
 
 
 const app = express()
@@ -472,8 +473,7 @@ app.get('/places/:placeId', async (req, res) => {
     res.send(place)
 })
 
-// 6. BOOKINGS. GET/USER/BOOKINGS
-
+// ALL BOOKINGS USER
 app.get('/users/booking', isAuthorized, async (req, res) => {
 
     const userId = req.user.id
@@ -496,15 +496,12 @@ app.get('/users/booking', isAuthorized, async (req, res) => {
 })
 
 
-
-// 6.1 BOOKINGS. GET/USER/BOOKINGS
-
+// SAVE BOOKINGS
 app.post('/users/:experience_id/booking', isAuthorized, async (req, res) => {
     const { reservedSeats, bookingDate  } = req.body
     const experience_id = req.params.experience_id
     const userId = req.user.id
     let booking
-
 
     try {
         booking = await mysqlBookingsRepository.postUserBooking(bookingDate, reservedSeats, experience_id, userId)
@@ -513,17 +510,14 @@ app.post('/users/:experience_id/booking', isAuthorized, async (req, res) => {
         res.end(error.message)
     }
 
-
     res.status(200)
     res.send('La reserva se ha efectuado correctamente')
-
 })
 
-// 7. BOOKINGS. GET/USER/BOOKINGS/:bookingId
 
+// GET BOOKINGS BY ID
 app.get('/users/booking/:bookingId', isAuthorized, async (req, res) => {
     const { bookingId } = req.params
-
 
     let bookings
     try {
@@ -538,10 +532,8 @@ app.get('/users/booking/:bookingId', isAuthorized, async (req, res) => {
 })
 
 
-// 8. BOOKINGS. GET/USER/ADMIN/BOOKINGS
-
+// ALL BOOKINGS ADMIN
 app.get('/users/admin/bookings', isAuthorized, isAdmin, async (req, res) => {
-
 
     let bookings
     try {
@@ -555,8 +547,8 @@ app.get('/users/admin/bookings', isAuthorized, isAdmin, async (req, res) => {
     res.send(bookings)
 })
 
-// 9. BOOKINGS. GET /USER/ADMIN/BOOKINGS/:bookingId
 
+// GET BOOKING BY ID ADMIN
 app.get('/users/admin/:bookingId', isAuthorized, isAdmin, async (req, res) => {
     const { bookingId } = req.params
 
@@ -571,6 +563,59 @@ app.get('/users/admin/:bookingId', isAuthorized, isAdmin, async (req, res) => {
     res.status(200)
     res.send(bookings)
 })
+
+
+// POST A REVIEW
+app.post('/bookings/:booking_id/review', async (req, res) => {
+    const { booking_id } = req.params
+    const { vote } = req.body
+
+    let voteAlreadyExists
+    try {
+        voteAlreadyExists = await mysqlReviewsRepository.voteExists(booking_id)
+    } catch (error) {
+        res.status(500)
+        res.end('Database error')
+        return
+    }
+
+    if (voteAlreadyExists) {
+        res.status(403)
+        res.end('This vote already exists')
+        return
+    }
+
+    let review
+    try {
+        review = await mysqlReviewsRepository.postReviewByBookingId(vote, booking_id)
+    } catch(error) {
+        res.status(500)
+        res.end('Database error')
+        return
+    }
+
+    res.status(200)
+    res.send('Your vote was submitted successfully')
+})
+
+
+// GET REVIEW MEDIA
+app.get('/reviews/:experience_id', async (req, res) => {
+    const { experience_id } = req.params
+
+    let review
+    try {
+        review = await mysqlReviewsRepository.getReviewByExperienceId(experience_id)
+    } catch(error) {
+        res.status(400)
+        res.end(error.message)
+        return
+    }
+
+    res.status(200)
+    res.send(review)
+})
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${BASE_URL}:${PORT}`)
