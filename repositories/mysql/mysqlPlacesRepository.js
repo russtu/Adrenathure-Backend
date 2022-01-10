@@ -1,8 +1,9 @@
 const connection = require('./mysqlConnection')
 
 const getPlaces = async () => {
-
-        const places = await connection.query('SELECT * FROM places')
+       
+        const places = await connection.query('SELECT * FROM places') 
+        console.log(places)
         return places[0]
 
 }

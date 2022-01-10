@@ -28,15 +28,13 @@ const experienceSchema = Joi.object({
     }),
 
     price: Joi
-        .string()
-        .min(0)
-        .max(20)
-        .required()
-        .messages({
-            'any.required': 'Price is required',
-            'string.empty': 'Price can not be empty',
-            'string.min': 'Price is should be between 0 and 20 characters',
-            'string.max': 'Price is  should be between 0 and 20 characters'
+    .number()
+    .integer()
+    .required()
+    .messages({
+        'any.required': 'place_id is required',
+        'number.base': 'The value of place_id is not a number or could not be cast to a number',
+        'number.integer': 'The number is not a valid integer.',
 
     }),
     totalSeats: Joi
@@ -77,6 +75,13 @@ const experienceSchema = Joi.object({
             'number.max': 'totalSeats is  should be between 0 and 100 characters'
 
     }),
+    experienceHour: Joi
+        .string()
+        .required()
+        .regex(/^([0-9]{2}):([0-9]{2})$/)
+        .messages({
+            'any.required': 'experienceHour is required'
+    })
 })
 
 
