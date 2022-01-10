@@ -1,9 +1,10 @@
+const res = require('express/lib/response')
 const connection = require('./mysqlConnection')
 
 
 const createExperience = async (experienceData) => {
 
-    let results = await connection.query("INSERT INTO experiences (experienceName, experienceDescription, price, totalSeats, experienceDate, place_id) VALUES ( ?, ?, ?, ?, ?, ? )  " ,[experienceData.experienceName, experienceData.experienceDescription, experienceData.price, experienceData.totalSeats, experienceData.experienceDate, experienceData.place_id])
+    let results = await connection.query("INSERT INTO experiences (experienceName, experienceDescription, price, totalSeats, experienceDate, experienceHour, place_id) VALUES ( ?, ?, ?, ?, ?, ?, ? )  " ,[experienceData.experienceName, experienceData.experienceDescription, experienceData.price, experienceData.totalSeats, experienceData.experienceDate, experienceData.experienceHour, experienceData.place_id])
     return results[0]
 
   }
@@ -20,7 +21,13 @@ const getExperiences = async() => {
 
 }
 const editExperience = async (experienceData, experienceId) => {
-    let results = await connection.query("UPDATE experiences SET (experienceName = ?, experienceDescription = ?, price = ?, totalSeats = ?, experienceDate = ?, place_id = ? WHERE id = ?", [experienceData.experienceName, experienceData.experienceDescription, experienceData.price, experienceData.totalSeats, experienceData.experienceDate, experienceData.place_id, experienceId.id])
+  
+  try {
+        let results = await connection.query("UPDATE experiences SET experienceName = ?, experienceDescription = ?, price = ?, totalSeats = ?, experienceDate = ?,  place_id = ?, experienceHour = ? WHERE id = ? ", [experienceData.experienceName, experienceData.experienceDescription, experienceData.price, experienceData.totalSeats, experienceData.experienceDate,  experienceData.place_id, experienceData.experienceHour, experienceId.id])
+        console.log(results[0])
+  } catch (error) {
+     console.log(error.message)
+  }
     return {experienceData}
 
   }
