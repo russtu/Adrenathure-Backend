@@ -1,7 +1,6 @@
 const mysqlUsersRepository = require('../../repositories/mysql/mysqlUsersRepository')
 
 
-
 const getUserById = async (req, res) => {
     const userId = req.user.id
 
@@ -20,6 +19,6 @@ const getUserById = async (req, res) => {
 
     res.status (200)
     res.send(userToReturn)
-
 }
+
 module.exports = getUserById

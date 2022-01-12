@@ -18,7 +18,7 @@ const userSchema = Joi.object({
         .messages({
             'any.required': '[password] is required',
             'string.empty': '[password] is required',
-            'string.pattern': '[password] should contain at least one lowercase and uppercase letter, one number and to be between 4 and 15 characters.'
+            'string.pattern.base': '[password] should contain at least one lowercase and uppercase letter, one number and to be between 4 and 15 characters.'
         }),
 
     firstName: Joi
@@ -46,5 +46,6 @@ const userSchema = Joi.object({
     }),
 
 })
+
 
 module.exports = userSchema

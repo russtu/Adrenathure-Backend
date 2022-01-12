@@ -2,7 +2,6 @@ const mysqlPlacesRepository = require('../../repositories/mysql/mysqlPlacesRepos
 
 
 const getRecommendedPlaces = async (req, res) => {
-
     let places
     try {
         places = await mysqlPlacesRepository.getPlacesRecommended()

@@ -1,5 +1,3 @@
-
-
 const mysqlExperiencesRepository = require('../../repositories/mysql/mysqlExperiencesRepository')
 const experienceSchema = require('../../validationSchemas/experienceSchema')
 
@@ -10,7 +8,6 @@ const postCreateExperience = async (req, res) => {
     if(!experienceData) {
         res.status(404)
         res.end('there are not data')
-
     }
 
     try {

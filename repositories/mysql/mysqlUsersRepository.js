@@ -3,7 +3,6 @@ const connection = require('./mysqlConnection')
 
 const userExists = async (user) => {
     const result = await connection.query("SELECT * FROM users WHERE email = ?", [user.email])
-
     return !!result[0].length
 }
 
@@ -25,30 +24,24 @@ const emailConfirmation = async ( registrationCode ) => {
     }
 
     const updatedUser = await connection.query("UPDATE users SET registrationCode = null, active = true WHERE id = ?", [users[0].id])
-
     return true
 }
 
 
 const getUserByEmail = async (userEmail) => {
     const result = await connection.query("SELECT * FROM users WHERE email = ?", [userEmail])
-
     return result[0] && result[0][0]
   }
 
 
 const getUserById = async (userId) => {
     const result = await connection.query("SELECT * FROM users WHERE id = ?", [userId])
-
     return result[0][0]
 }
 
 
 const editUser = async (user, userId) => {
-    console.log(user)
-    console.log(userId)
     const result = await connection.query("UPDATE users SET firstName = ?, lastName = ?, email = ?, password = ? WHERE id = ?", [user.firstName, user.lastName, user.email, user.password, userId])
-
 }
 
 

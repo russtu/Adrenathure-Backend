@@ -1,4 +1,9 @@
 const express = require('express')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
+
+const { JWT_PRIVATE_KEY } = process.env
+
 
 const isAuthorized = (req, res, next) => {
     const bearerToken = req.headers.authorization
@@ -25,6 +30,7 @@ const isAuthorized = (req, res, next) => {
 
     next()
 }
+
 
 module.exports = {
     isAuthorized

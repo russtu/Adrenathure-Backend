@@ -1,8 +1,6 @@
 const mysqlPlacesRepository = require('../../repositories/mysql/mysqlPlacesRepository')
 
 
-
-
 const getPlaces = async (req, res) => {
     let places
     try {

@@ -1,7 +1,6 @@
 const mysqlReviewsRepository = require('../../repositories/mysql/mysqlReviewsRepository')
 
 
-
 const getReviewsAverage = async (req, res) => {
     const { experience_id } = req.params
 

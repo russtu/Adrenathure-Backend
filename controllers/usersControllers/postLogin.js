@@ -1,16 +1,15 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 const mysqlUsersRepository = require('../../repositories/mysql/mysqlUsersRepository')
-const loginSchema = require('../../validationSchemas/loginSchema')
 
 const app = express()
 
 app.use(express.json())
 
-
-const {JWT_PRIVATE_KEY, JWT_EXPIRES_AFTER  } = process.env
+const { JWT_PRIVATE_KEY, JWT_EXPIRES_AFTER } = process.env
 
 
 const postLogin = async (req, res) => {
@@ -20,14 +19,6 @@ const postLogin = async (req, res) => {
       res.status(400)
       res.end('You should provide an email and password')
       return
-    }
-
-    try {
-        await loginSchema.validateAsync(credentials)
-    } catch (error) {
-        res.status(404)
-        res.end(error.message)
-        return
     }
 
     let user
@@ -41,13 +32,19 @@ const postLogin = async (req, res) => {
 
     if (!user) {
       res.status(404)
-      res.end('User not found')
+      res.end('Invalid credentials')
       return
     }
 
     if (!await bcrypt.compare(credentials.password, user.password)) {
-      res.status(403)
+      res.status(401)
       res.end('Invalid credentials')
+      return
+    }
+
+    if (user.active === 0) {
+      res.status(409)
+      res.end('Please activate your account')
       return
     }
 

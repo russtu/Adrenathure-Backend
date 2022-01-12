@@ -9,12 +9,10 @@ const { postAReview, getReviewsAverage } = require('../controllers')
 
 
 // POST A REVIEW
-
 router.post('/:booking_id', isAuthorized, postAReview)
 
 
 // GET REVIEW AVERAGE
-
 router.get('/:experience_id', getReviewsAverage)
 
 

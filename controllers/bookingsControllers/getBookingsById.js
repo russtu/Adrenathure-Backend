@@ -1,7 +1,6 @@
 const mysqlBookingsRepository = require('../../repositories/mysql/mysqlBookingsRepository')
 
 
-
 const getBookingById = async (req, res) => {
     const { bookingId } = req.params
 

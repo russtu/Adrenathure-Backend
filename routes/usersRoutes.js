@@ -21,33 +21,22 @@ const { isAuthorized } = require('../middlewares')
 const { postRegister, getEmailValidation, postLogin, getUserById, putEditUser, postUploadAvatar } = require('../controllers')
 
 
-
-
 //USER REGISTRATION
-
 router.post('/', postRegister)
 
 // EMAIL VALIDATION
-
 router.get('/validate/:registrationCode', getEmailValidation)
 
-
 // LOGIN
-
 router.post('/login', postLogin)
 
 // GET USER BY ID
-
 router.get('/profile',isAuthorized, getUserById)
 
-
 // EDIT USER
-
 router.put('/', isAuthorized,  putEditUser)
 
-
 // AVATAR UPLOAD
-
 router.post('/uploads', isAuthorized, postUploadAvatar)
 
 
