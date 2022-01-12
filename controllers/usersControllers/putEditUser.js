@@ -1,5 +1,6 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
+require('dotenv').config()
 
 const mysqlUsersRepository = require('../../repositories/mysql/mysqlUsersRepository')
 const userSchema = require('../../validationSchemas/userSchema')
@@ -11,15 +12,15 @@ app.use(express.json())
 const { SALT_ROUNDS } = process.env
 
 
-
 const putEditUser = async (req, res) => {
     const userId = req.user.id
+    console.log(userId)
     const user = req.body
 
     try {
         await userSchema.validateAsync(user)
     } catch (error) {
-        res.status(404)
+        res.status(422)
         res.end(error.message)
         return
     }
@@ -44,8 +45,7 @@ const putEditUser = async (req, res) => {
 
     console.log(editedUser)
     res.status(200)
-    res.end('User data edited')
-
+    res.end('User data edited successfully')
 }
 
 module.exports =  putEditUser

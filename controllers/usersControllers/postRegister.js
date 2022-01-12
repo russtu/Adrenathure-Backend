@@ -1,7 +1,7 @@
 const express = require('express')
 const crypto = require("crypto")
 const bcrypt = require('bcrypt')
-
+require('dotenv').config()
 
 const emailSender = require('../../notifiers/emailSender')
 const mysqlUsersRepository = require('../../repositories/mysql/mysqlUsersRepository')
@@ -14,17 +14,13 @@ app.use(express.json())
 const { SALT_ROUNDS } = process.env
 
 
-
-
-
-
 const postRegister = async (req, res) => {
     const user = req.body
 
     try {
         await userSchema.validateAsync(user)
     } catch (error) {
-        res.status(404)
+        res.status(422)
         res.end(error.message)
         return
     }
@@ -39,7 +35,7 @@ const postRegister = async (req, res) => {
     }
 
     if (userExists) {
-        res.status(403)
+        res.status(409)
         res.end('User already exists')
         return
     }
@@ -73,7 +69,7 @@ const postRegister = async (req, res) => {
     }
 
     res.status(200)
-    res.send('User successfully registered')
+    res.send('User registered successfully')
 }
 
 module.exports = postRegister

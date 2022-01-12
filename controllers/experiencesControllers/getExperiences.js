@@ -3,6 +3,7 @@ const mysqlExperiencesRepository = require('../../repositories/mysql/mysqlExperi
 
 const getExperiences = async (req, res) => {
     const {place, date, lowPrice, highPrice} = req.query
+
     let experiences
     try {
         experiences = await mysqlExperiencesRepository.searchExperiences(place, date, lowPrice, highPrice)

@@ -13,11 +13,9 @@ app.use(express.json())
 
 
 // CONSTANTES
-
 const { BASE_URL, PORT} = process.env
 
 // ROUTES
-
 app.use('/users', usersRoutes)
 
 app.use('/experiences', experiencesRoutes)

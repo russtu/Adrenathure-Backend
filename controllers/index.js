@@ -3,7 +3,6 @@ const getExperiencesById = require('./experiencesControllers/getExperiencesById.
 const postCreateExperience = require('./experiencesControllers/postCreateExperience.js')
 const putModifyExperience = require('./experiencesControllers/putModifyExperience.js')
 
-
 const getPlaces = require('./placesControllers/getPlaces')
 const getRecommendedPlaces = require('./placesControllers/getRecommendedPlaces')
 const getPlaceById = require('./placesControllers/getPlaceById')

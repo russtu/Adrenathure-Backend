@@ -1,8 +1,7 @@
-const nodemailer = require("nodemailer");
-
+const nodemailer = require("nodemailer")
+require('dotenv').config()
 
 const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SENDER_EMAIL } = process.env
-
 
 // reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
@@ -17,6 +16,7 @@ let transporter = nodemailer.createTransport({
 
 
 const accountConfirmationEmail = async ({ sendTo, registrationCode }) => {
+  console.log(sendTo, registrationCode)
     await transporter.sendMail({
       from: `${SENDER_EMAIL} <${SENDER_EMAIL}>`,
       to: sendTo,

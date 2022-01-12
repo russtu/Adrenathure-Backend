@@ -1,10 +1,10 @@
 const mysqlReviewsRepository = require('../../repositories/mysql/mysqlReviewsRepository')
 
 
-
 const postAReview = async (req, res) => {
     const { booking_id } = req.params
     const { vote } = req.body
+
     let voteAlreadyExists
     try {
         voteAlreadyExists = await mysqlReviewsRepository.voteExists(booking_id)

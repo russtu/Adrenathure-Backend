@@ -7,21 +7,17 @@ const { getExperiences, getExperiencesById, postCreateExperience, putModifyExper
 
 
 // GET ALL/FILTER EXPERIENCES
-
 router.get('/', getExperiences )
 
 
 // GET EXPERIENCE BY ID
-
 router.get('/:experienceId', getExperiencesById )
 
 
 // CREATE NEW EXPERIENCE
-
 router.post('/', isAuthorized, isAdmin, postCreateExperience )
 
 // MODIFY EXPERIENCE BY ID
-
 router.put('/:experienceId', putModifyExperience )
 
 

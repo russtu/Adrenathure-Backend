@@ -3,43 +3,38 @@ const connection = require('./mysqlConnection')
 
 
 const createExperience = async (experienceData) => {
-
     let results = await connection.query("INSERT INTO experiences (experienceName, experienceDescription, price, totalSeats, experienceDate, experienceHour, place_id) VALUES ( ?, ?, ?, ?, ?, ?, ? )  " ,[experienceData.experienceName, experienceData.experienceDescription, experienceData.price, experienceData.totalSeats, experienceData.experienceDate, experienceData.experienceHour, experienceData.place_id])
     return results[0]
-
   }
+
 
 const getExperienceById = async(experienceId) => {
     let results = await connection.query("SELECT * FROM experiences WHERE id= ? ",[experienceId])
     return results[0]
-
 }
-const getExperiences = async() => {
 
+
+const getExperiences = async() => {
   let results = await connection.query("SELECT * FROM experiences")
   return results[0]
-
 }
+
+
 const editExperience = async (experienceData, experienceId) => {
-  
-  try {
-        let results = await connection.query("UPDATE experiences SET experienceName = ?, experienceDescription = ?, price = ?, totalSeats = ?, experienceDate = ?,  place_id = ?, experienceHour = ? WHERE id = ? ", [experienceData.experienceName, experienceData.experienceDescription, experienceData.price, experienceData.totalSeats, experienceData.experienceDate,  experienceData.place_id, experienceData.experienceHour, experienceId.id])
-        console.log(results[0])
-  } catch (error) {
-     console.log(error.message)
-  }
-    return {experienceData}
-
+    let results = await connection.query("UPDATE experiences SET experienceName = ?, experienceDescription = ?, price = ?, totalSeats = ?, experienceDate = ?,  place_id = ?, experienceHour = ? WHERE id = ? ", [experienceData.experienceName, experienceData.experienceDescription, experienceData.price, experienceData.totalSeats, experienceData.experienceDate,  experienceData.place_id, experienceData.experienceHour, experienceId.id])
+    return results
   }
 
-  const searchExperiences = async (place, date, lowPrice, highPrice) => {
 
+const searchExperiences = async (place, date, lowPrice, highPrice) => {
     let placeresult
     let placeid
+
     if (place) {
       placeresult = await connection.query("SELECT * FROM places where placeName = ?", [place])
       placeid = placeresult[0][0].id
     }
+
     let results
     const params = []
     const conditions = []
@@ -73,6 +68,7 @@ const editExperience = async (experienceData, experienceId) => {
     return results[0]
 
   }
+
 
 module.exports = {
     getExperiences,

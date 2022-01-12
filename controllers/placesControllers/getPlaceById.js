@@ -2,8 +2,8 @@ const mysqlPlacesRepository = require('../../repositories/mysql/mysqlPlacesRepos
 
 
 const getPlaceById = async (req, res) => {
-
     const { placeId } = req.params
+
     let place
     try {
         place = await mysqlPlacesRepository.getPlacesById(placeId)

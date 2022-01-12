@@ -1,9 +1,9 @@
 const mysqlBookingsRepository = require('../../repositories/mysql/mysqlBookingsRepository')
 
 
-
 const getBookings = async (req, res) => {
     const userId = req.user.id
+
     let bookings
     try {
         bookings = await mysqlBookingsRepository.getUserBookings(userId)

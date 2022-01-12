@@ -1,11 +1,11 @@
 const mysqlUsersRepository = require('../../repositories/mysql/mysqlUsersRepository')
 
 
-
 const getEmailValidation = async (req, res) => {
     const { registrationCode } = req.params
+
     if (!registrationCode) {
-        res.status(400)
+        res.status(401)
         res.end('No registration code provided')
         return
     }
@@ -13,7 +13,7 @@ const getEmailValidation = async (req, res) => {
     try {
         await mysqlUsersRepository.emailConfirmation(registrationCode)
     } catch (error) {
-        res.status(500)
+        res.status(401)
         res.end('Invalid registration code')
         return
     }
