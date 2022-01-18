@@ -6,10 +6,15 @@ const  { placesRoutes }  = require('./routes')
 const  { bookingsRoutes }  = require('./routes')
 const  { reviewsRoutes }  = require('./routes')
 
+const fileUpload = require('express-fileupload')
 
 const app = express()
 
 app.use(express.json())
+
+app.use('/public', express.static('uploads'))
+app.use(fileUpload())
+
 
 
 // CONSTANTES
