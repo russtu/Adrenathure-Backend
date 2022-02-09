@@ -14,7 +14,6 @@ const { SALT_ROUNDS } = process.env
 
 const putEditUser = async (req, res) => {
     const userId = req.user.id
-    console.log(userId)
     const user = req.body
 
     try {
@@ -43,7 +42,6 @@ const putEditUser = async (req, res) => {
         return
     }
 
-    console.log(editedUser)
     res.status(200)
     res.end('User data edited successfully')
 }

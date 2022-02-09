@@ -1,5 +1,6 @@
 const getExperiences = require('./experiencesControllers/getExperiences.js')
 const getExperiencesById = require('./experiencesControllers/getExperiencesById.js')
+const getExperiencesByPlace = require('./experiencesControllers/getExperiencesByPlace.js')
 const postCreateExperience = require('./experiencesControllers/postCreateExperience.js')
 const putModifyExperience = require('./experiencesControllers/putModifyExperience.js')
 
@@ -26,6 +27,7 @@ const postUploadAvatar = require('./usersControllers/postUploadAvatar')
 module.exports = {
     getExperiences,
     getExperiencesById,
+    getExperiencesByPlace,
     postCreateExperience,
     putModifyExperience,
 

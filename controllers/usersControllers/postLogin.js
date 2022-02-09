@@ -54,7 +54,7 @@ const postLogin = async (req, res) => {
     }, JWT_PRIVATE_KEY);
 
     res.status(200)
-    res.send({ token })
+    res.send({ token, user:user.firstName, role:user.role })
 }
 
 module.exports = postLogin

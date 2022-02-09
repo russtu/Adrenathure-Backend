@@ -1,16 +1,17 @@
 const mysqlExperiencesRepository = require('../../repositories/mysql/mysqlExperiencesRepository')
 
 
-const getExperiencesById =  async (req, res) => {
-    const experienceId = Number (req.params.experienceId)
+const getExperiencesByPlace =  async (req, res) => {
+    const place_id = Number (req.params.place_id)
 
     let experience
     try {
 
-        experience = await mysqlExperiencesRepository.getExperienceById(experienceId)
+        experience = await mysqlExperiencesRepository.getExperiencesByPlace(place_id)
+
     } catch (error) {
         res.status(500)
-        res.end('database error')
+        res.end(error.message)
         return
     }
 
@@ -24,4 +25,4 @@ const getExperiencesById =  async (req, res) => {
     res.send(experience)
 }
 
-module.exports = getExperiencesById
+module.exports = getExperiencesByPlace

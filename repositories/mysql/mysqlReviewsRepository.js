@@ -7,22 +7,34 @@ const voteExists = async (booking_id) => {
 }
 
 
-const postReviewByBookingId = async (vote, booking_id) => {
+const postReviewByBookingId = async (userId, vote, booking_id) => {
   let date = new Date()
-  const results = await connection.query("INSERT INTO reviews (vote, createdAt, booking_id) VALUES ( ?, ?, ? )  ", [vote, date, booking_id])
+  const results = await connection.query("INSERT INTO reviews (user_id, vote, createdAt, booking_id) VALUES ( ?, ?, ?, ? )  ", [userId, vote, date, booking_id])
   return results[0]
 }
 
 
-const getReviewByExperienceId = async (experience_id) => {
-  let results = await connection.query("SELECT AVG (vote) FROM reviews, bookings as b WHERE reviews.booking_id = b.id AND b.experience_id = ?", [experience_id])
+const getExperienceId = async (booking_id) => {
+  let results = await connection.query("SELECT bookings.experience_id FROM bookings WHERE bookings.id= ?", [booking_id])
   return results[0][0]
-  // nos está devolviendo un JSON - tratar en front
 }
+
+const getAVGReviewByExperienceId = async (experience_id) => {
+  let results = await connection.query("SELECT AVG(vote) as AVG FROM reviews, bookings as b WHERE reviews.booking_id = b.id AND b.experience_id = ?", [experience_id])
+  return results[0][0]
+}
+
+const saveAVGReviewByExperienceId = async (AVG, experience_id) => {
+  let results = await connection.query("UPDATE experiences SET experiences.AVGVote = ? WHERE experiences.id = ?" ,[AVG, experience_id])
+  return results
+}
+
 
 
 module.exports = {
     voteExists,
     postReviewByBookingId,
-    getReviewByExperienceId
+    getExperienceId,
+    getAVGReviewByExperienceId,
+    saveAVGReviewByExperienceId
 }
