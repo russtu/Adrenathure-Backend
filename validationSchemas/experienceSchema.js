@@ -43,8 +43,8 @@ const experienceSchema = Joi.object({
         .integer()
         .required()
         .messages({
-            'any.required': 'place_id is required',
-            'number.base': 'The value of place_id is not a number or could not be cast to a number',
+            'any.required': 'price is required',
+            'number.base': 'The value of price is not a number or could not be cast to a number',
             'number.integer': 'The number is not a valid integer.',
 
     }),

@@ -65,12 +65,12 @@ const postRegister = async (req, res) => {
         emailSender.accountConfirmationEmail({ sendTo: savedUser.email, registrationCode })
     } catch (error) {
         res.status(500)
-        res.send('Unexpected error')
+        res.end('Unexpected error')
         return
     }
 
     res.status(200)
-    res.send({ message: 'User registered successfully'})
+    res.send(JSON.stringify('User registered successfully'))
 }
 
 module.exports = postRegister

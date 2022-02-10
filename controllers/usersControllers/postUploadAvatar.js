@@ -1,21 +1,22 @@
+
 const mysqlUsersRepository = require('../../repositories/mysql/mysqlUsersRepository')
 
 const postUploadAvatar = async (req, res) => {
     const userId = req.user.id
     const avatar = req.files.avatar
-    
-    avatar = avatar.mv(`${__dirname}/../../public/${avatar.name}`)
-    const path = avatar.name
+
+    avatar.mv(`${__dirname}/../../public/${avatar.name}`)
+    const path = `${avatar.name}`
 
     let savedPath
     try {
-      savedPath = await mysqlUsersRepository.postAvatar(path, userId)
+      savedPath = await mysqlUsersRepository.postAvatar(path,userId)
     } catch (error) {
       res.status(500)
-      res.send(error.message)
+      res.end('Database error')
       return
     }
-
+    
     res.send('File uploaded successfully')
 }
 

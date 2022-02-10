@@ -44,9 +44,9 @@ const editUser = async (user, userId) => {
     const result = await connection.query("UPDATE users SET firstName = ?, lastName = ?, email = ?, password = ? WHERE id = ?", [user.firstName, user.lastName, user.email, user.password, userId])
 }
 
-const postAvatar = async (userId, path ) => {
+const postAvatar = async (path,userId) => {
   const result = await connection.query("UPDATE users SET avatar = ? WHERE id = ?", [path, userId])
-  return result[0][0]
+  return result
 }
 
 

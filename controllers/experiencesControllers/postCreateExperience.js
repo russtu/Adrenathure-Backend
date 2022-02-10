@@ -4,6 +4,11 @@ const experienceSchema = require('../../validationSchemas/experienceSchema')
 
 const postCreateExperience = async (req, res) => {
     const experienceData = req.body
+    const avatar = req.files.avatar
+
+    avatar.mv(`${__dirname}/../../public/${avatar.name}`)
+    const path = `${avatar.name}`
+
 
     if(!experienceData) {
         res.status(404)
@@ -20,7 +25,7 @@ const postCreateExperience = async (req, res) => {
 
     let experience
     try {
-        experience = await mysqlExperiencesRepository.createExperience(experienceData)
+        experience = await mysqlExperiencesRepository.createExperience(experienceData,path)
     } catch (error) {
         res.status(500)
         res.end(error.message)
