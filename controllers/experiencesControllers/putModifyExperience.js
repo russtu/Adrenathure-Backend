@@ -5,6 +5,10 @@ const experienceSchema = require('../../validationSchemas/experienceSchema')
 const putModifyExperience = async (req, res) => {
     const experienceData = req.body
     const experienceId = req.params.experienceId
+    const avatar = req.files.avatar
+
+    avatar.mv(`${__dirname}/../../public/${avatar.name}`)
+    const path = `${avatar.name}`
 
     if (!experienceData) {
       res.status(400)
@@ -22,7 +26,7 @@ const putModifyExperience = async (req, res) => {
 
     let editedExperience
     try {
-      editedExperience = await mysqlExperiencesRepository.editExperience(experienceData, experienceId)
+      editedExperience = await mysqlExperiencesRepository.editExperience(experienceData, experienceId,path)
     } catch (error) {
       res.status(500)
       res.end(error.message)

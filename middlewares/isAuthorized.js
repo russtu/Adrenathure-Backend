@@ -7,7 +7,6 @@ const { JWT_PRIVATE_KEY } = process.env
 
 const isAuthorized = (req, res, next) => {
     const bearerToken = req.headers.authorization
-
     if (!bearerToken) {
         res.status(401)
         res.end('You are not authorized')
