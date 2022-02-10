@@ -44,6 +44,11 @@ const editUser = async (user, userId) => {
     const result = await connection.query("UPDATE users SET firstName = ?, lastName = ?, email = ?, password = ? WHERE id = ?", [user.firstName, user.lastName, user.email, user.password, userId])
 }
 
+const postAvatar = async (userId, path ) => {
+  const result = await connection.query("UPDATE users SET avatar = ? WHERE id = ?", [path, userId])
+  return result[0][0]
+}
+
 
 module.exports = {
     saveUser,
@@ -51,5 +56,6 @@ module.exports = {
     userExists,
     getUserByEmail,
     editUser,
-    getUserById
+    getUserById,
+    postAvatar
 }

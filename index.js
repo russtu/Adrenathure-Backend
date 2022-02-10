@@ -1,3 +1,4 @@
+const cors = require('cors')
 const express = require('express')
 require('dotenv').config()
 const  { usersRoutes } = require('./routes')
@@ -8,12 +9,15 @@ const  { reviewsRoutes }  = require('./routes')
 
 const fileUpload = require('express-fileupload')
 
+process.env.TZ = "Europa/Amsterdam"
+
 const app = express()
 
 app.use(express.json())
 
-app.use('/public', express.static('uploads'))
+app.use(express.static('public'))
 app.use(fileUpload())
+app.use(cors())
 
 
 

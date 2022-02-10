@@ -13,9 +13,9 @@ const getUserById = async (req, res) => {
         return
     }
 
-    const { firstName, lastName, email, password } = user
+    const { avatar, firstName, lastName, email, password } = user
 
-    userToReturn = { firstName, lastName, email, password: '********' }
+    userToReturn = { avatar, firstName, lastName, email, password: '********' }
 
     res.status (200)
     res.send(userToReturn)

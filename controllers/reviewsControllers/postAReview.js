@@ -2,6 +2,7 @@ const mysqlReviewsRepository = require('../../repositories/mysql/mysqlReviewsRep
 
 
 const postAReview = async (req, res) => {
+    const userId = req.user.id
     const { booking_id } = req.params
     const { vote } = req.body
 
@@ -22,10 +23,41 @@ const postAReview = async (req, res) => {
 
     let review
     try {
-        review = await mysqlReviewsRepository.postReviewByBookingId(vote, booking_id)
+        review = await mysqlReviewsRepository.postReviewByBookingId(userId, Number(vote), booking_id)
     } catch(error) {
         res.status(500)
-        res.end('Database error')
+        res.end(error.message)
+        return
+    }
+
+    let getExperienceId
+    try {
+      getExperienceId = await mysqlReviewsRepository.getExperienceId(booking_id)
+    } catch (error) {
+        res.status(500)
+        res.end(error.message)
+        return
+    }
+
+    const { experience_id } = getExperienceId
+
+    let AVGVoteByExperienceId
+    try {
+      AVGVoteByExperienceId = await mysqlReviewsRepository.getAVGReviewByExperienceId(experience_id)
+    } catch (error) {
+        res.status(500)
+        res.end(error.message)
+        return
+    }
+
+    const { AVG } = AVGVoteByExperienceId
+
+    let saveAVGVote
+    try {
+      saveAVGVote = await mysqlReviewsRepository.saveAVGReviewByExperienceId(Math.round(AVG), experience_id)
+    } catch (error) {
+        res.status(500)
+        res.end(error.message)
         return
     }
 

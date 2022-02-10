@@ -35,6 +35,7 @@ const postRegister = async (req, res) => {
     }
 
     if (userExists) {
+        console.error('User already exists')
         res.status(409)
         res.end('User already exists')
         return
@@ -64,12 +65,12 @@ const postRegister = async (req, res) => {
         emailSender.accountConfirmationEmail({ sendTo: savedUser.email, registrationCode })
     } catch (error) {
         res.status(500)
-        res.end('Unexpected error')
+        res.send('Unexpected error')
         return
     }
 
     res.status(200)
-    res.send('User registered successfully')
+    res.send({ message: 'User registered successfully'})
 }
 
 module.exports = postRegister

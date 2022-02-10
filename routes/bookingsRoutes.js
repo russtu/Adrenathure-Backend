@@ -5,11 +5,11 @@ const {isAuthorized } = require('../middlewares')
 const { isAdmin } = require('../middlewares')
 
 
-//ALL BOOKINGS USER
+// ALL BOOKINGS USER
 router.get('/', isAuthorized, getBookings)
 
 
-//SAVE BOOKING
+// SAVE BOOKING
 router.post('/:experience_id', isAuthorized, postCreateBooking)
 
 
@@ -20,7 +20,7 @@ router.get('/:bookingId', isAuthorized, getBookingById)
 // ALL BOOKINGS ADMIN
 router.get('/admin/bookings', isAuthorized, isAdmin, getAllBookingsByAdmin)
 
-//BOOKING BY ID ADMIN
+// BOOKING BY ID ADMIN
 router.get('/admin/:bookingId', isAuthorized, isAdmin, getBookingByIdByAdmin)
 
 
