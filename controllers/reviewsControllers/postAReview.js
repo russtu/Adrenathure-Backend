@@ -5,6 +5,7 @@ const postAReview = async (req, res) => {
     const userId = req.user.id
     const { booking_id } = req.params
     const { vote } = req.body
+    console.log(Number(vote))
 
     let voteAlreadyExists
     try {
@@ -17,7 +18,7 @@ const postAReview = async (req, res) => {
 
     if (voteAlreadyExists) {
         res.status(403)
-        res.end('This vote already exists')
+        res.end(JSON.stringify('This vote already exists'))
         return
     }
 

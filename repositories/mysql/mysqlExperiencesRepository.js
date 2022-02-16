@@ -24,6 +24,8 @@ const getExperiencesByPlace = async(place_id) => {
   let results = await connection.query("SELECT * FROM experiences WHERE place_id= ? ",[place_id])
   return results[0]
 }
+
+
 const editExperience = async (experienceData, experienceId, path) => {
     let results = await connection.query("UPDATE experiences SET experienceName = ?, experienceDescription = ?, price = ?, photo = ?, totalSeats = ?, experienceDate = ?,  place_id = ?, experienceHour = ? WHERE id = ? ", [experienceData.experienceName, experienceData.experienceDescription, experienceData.price, path, experienceData.totalSeats, experienceData.experienceDate,  experienceData.place_id, experienceData.experienceHour, experienceId])
     return results

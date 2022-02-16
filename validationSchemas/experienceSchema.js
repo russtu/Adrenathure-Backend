@@ -95,6 +95,7 @@ const experienceSchema = Joi.object({
             'number.min': 'totalSeats is should be between 0 and 100 characters',
             'number.max': 'totalSeats is  should be between 0 and 100 characters'
     }),
+
     experienceHour: Joi
         .string()
         .required()

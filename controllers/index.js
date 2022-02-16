@@ -7,6 +7,8 @@ const putModifyExperience = require('./experiencesControllers/putModifyExperienc
 const getPlaces = require('./placesControllers/getPlaces')
 const getRecommendedPlaces = require('./placesControllers/getRecommendedPlaces')
 const getPlaceById = require('./placesControllers/getPlaceById')
+const postCreatePlace = require('./placesControllers/postCreatePlace')
+const putModifyPlace = require('./placesControllers/putModifyPlace')
 
 const postAReview = require('./reviewsControllers/postAReview')
 const getReviewsAverage = require('./reviewsControllers/getReviewsAverage')
@@ -34,6 +36,8 @@ module.exports = {
     getPlaces,
     getRecommendedPlaces,
     getPlaceById,
+    postCreatePlace,
+    putModifyPlace,
 
     postAReview,
     getReviewsAverage,

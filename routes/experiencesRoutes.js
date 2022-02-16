@@ -9,13 +9,11 @@ const { getExperiences, getExperiencesById, getExperiencesByPlace, postCreateExp
 // GET ALL/FILTER EXPERIENCES
 router.get('/', getExperiences )
 
-
 // GET EXPERIENCE BY ID
 router.get('/:experienceId', getExperiencesById )
 
 // GET EXPERIENCE BY PLACE
 router.get('/place/:place_id', getExperiencesByPlace )
-
 
 // CREATE NEW EXPERIENCE
 router.post('/', isAuthorized, isAdmin, postCreateExperience )
