@@ -17,7 +17,7 @@ const placeSchema = Joi.object({
     placeDescription: Joi
         .string()
         .min(3)
-        .max(500)
+        .max(900)
         .required()
         .messages({
             'any.required': 'Place description is required',
