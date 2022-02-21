@@ -14,17 +14,7 @@ const experienceSchema = Joi.object({
             'string.max': 'Experience name is  should be between 3 and 50 characters'
         }),
 
-    photo: Joi
-        .string()
-        .min(3)
-        .max(150)
-        .required()
-        .messages({
-            'any.required': 'Experience photo is required',
-            'string.empty': 'Experience photo  can not be empty',
-            'string.min': 'Experience photo is should be between 3 and 150 characters',
-            'string.max': 'Experience photo is  should be between 3 and 150 characters'
-    }),
+    
 
     experienceDescription: Joi
         .string()

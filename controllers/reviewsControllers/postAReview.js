@@ -5,7 +5,6 @@ const postAReview = async (req, res) => {
     const userId = req.user.id
     const { booking_id } = req.params
     const { vote } = req.body
-    console.log(Number(vote))
 
     let voteAlreadyExists
     try {
@@ -18,13 +17,13 @@ const postAReview = async (req, res) => {
 
     if (voteAlreadyExists) {
         res.status(403)
-        res.end(JSON.stringify('This vote already exists'))
+        res.end('This vote already exists')
         return
     }
 
     let review
     try {
-        review = await mysqlReviewsRepository.postReviewByBookingId(userId, Number(vote), booking_id)
+        review = await mysqlReviewsRepository.postReviewByBookingId( Number(vote), booking_id)
     } catch(error) {
         res.status(500)
         res.end(error.message)
