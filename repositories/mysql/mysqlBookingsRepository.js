@@ -14,13 +14,13 @@ const postUserBooking = async (bookingData, experience_id, user_id) => {
     let month = date.getMonth() + 1
     let bookingNumber = `${year}${month}-${user_id}${numberRandom}`
 
-    const insert = await connection.query('INSERT INTO bookings (bookingDate, bookingNumber, adventureDate, adventureHour, reservedSeats, totalPrice, experience_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [ date, bookingNumber, bookingData.adventureDate, bookingData.adventureHour, bookingData.reservedSeats, bookingData.totalPrice, experience_id, user_id ])
+    const insert = await connection.query('INSERT INTO bookings (bookingDate, bookingNumber, experienceDate, experienceHour, reservedSeats, totalPrice, experience_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [ date, bookingNumber, bookingData.experienceDate, bookingData.experienceHour, bookingData.reservedSeats, bookingData.totalPrice, experience_id, user_id ])
     return insert[0]
 }
 
 
 const getUserBookingsById = async (bookingId) => {
-    const bookings = await connection.query('SELECT bookings.*, experiences.experienceName, experiences.experienceDate, experiences.experienceHour, experiences.photo, users.firstName, users.lastName, places.placeName FROM bookings LEFT JOIN experiences ON bookings.experience_id = experiences.id LEFT JOIN users ON bookings.user_id = users.id LEFT JOIN places ON experiences.place_id = places.id WHERE bookings.id = ?', [bookingId])
+    const bookings = await connection.query('SELECT bookings.*, experiences.experienceName, dates.experienceDate, dates.experienceHour, experiences.photo, users.firstName, users.lastName, places.placeName FROM bookings LEFT JOIN experiences ON bookings.experience_id = experiences.id LEFT JOIN dates ON bookings.experience_id = dates.experience_id LEFT JOIN users ON bookings.user_id = users.id LEFT JOIN places ON experiences.place_id = places.id WHERE bookings.id = ?', [bookingId])
     return bookings[0][0]
 }
 

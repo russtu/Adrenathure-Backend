@@ -3,6 +3,7 @@ const getExperiencesById = require('./experiencesControllers/getExperiencesById.
 const getExperiencesByPlace = require('./experiencesControllers/getExperiencesByPlace.js')
 const postCreateExperience = require('./experiencesControllers/postCreateExperience.js')
 const putModifyExperience = require('./experiencesControllers/putModifyExperience.js')
+const deleteExperience = require('./experiencesControllers/deleteExperience.js')
 
 const getPlaces = require('./placesControllers/getPlaces')
 const getRecommendedPlaces = require('./placesControllers/getRecommendedPlaces')
@@ -26,12 +27,16 @@ const getUserById = require('./usersControllers/getUserById')
 const putEditUser = require('./usersControllers/putEditUser')
 const postUploadAvatar = require('./usersControllers/postUploadAvatar')
 
+const getDateById = require('./datesControllers/getDateById')
+const getDates = require('./datesControllers/getDates')
+
 module.exports = {
     getExperiences,
     getExperiencesById,
     getExperiencesByPlace,
     postCreateExperience,
     putModifyExperience,
+    deleteExperience,
 
     getPlaces,
     getRecommendedPlaces,
@@ -53,5 +58,8 @@ module.exports = {
     postLogin,
     getUserById,
     putEditUser,
-    postUploadAvatar
+    postUploadAvatar,
+
+    getDateById,
+    getDates
 }

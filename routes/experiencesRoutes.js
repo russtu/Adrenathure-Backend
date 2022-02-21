@@ -3,7 +3,9 @@ const router = require('express').Router()
 const {isAuthorized } = require('../middlewares')
 const { isAdmin } = require('../middlewares')
 
-const { getExperiences, getExperiencesById, getExperiencesByPlace, postCreateExperience, putModifyExperience } = require('../controllers')
+const { getExperiences, getExperiencesById, getExperiencesByPlace, postCreateExperience, putModifyExperience, deleteExperience } = require('../controllers')
+
+
 
 
 // GET ALL/FILTER EXPERIENCES
@@ -20,6 +22,9 @@ router.post('/', isAuthorized, isAdmin, postCreateExperience )
 
 // MODIFY EXPERIENCE BY ID
 router.put('/:experienceId', putModifyExperience )
+
+// DELETE EXPERIENCE BY ID
+router.delete('/',isAuthorized, isAdmin, deleteExperience )
 
 
 module.exports = router

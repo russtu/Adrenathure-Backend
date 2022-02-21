@@ -3,6 +3,7 @@ const experiencesRoutes = require('./experiencesRoutes')
 const placesRoutes = require('./placesRoutes')
 const bookingsRoutes = require('./bookingsRoutes')
 const reviewsRoutes = require('./reviewsRoutes')
+const datesRoutes = require('./datesRoutes')
 
 
 module.exports = {
@@ -10,5 +11,6 @@ module.exports = {
     experiencesRoutes,
     placesRoutes,
     bookingsRoutes,
-    reviewsRoutes
+    reviewsRoutes,
+    datesRoutes
 }
