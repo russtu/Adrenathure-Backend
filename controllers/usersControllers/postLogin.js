@@ -17,7 +17,7 @@ const postLogin = async (req, res) => {
 
     if (!credentials.email || !credentials.password) {
       res.status(400)
-      res.end('You should provide an email and password')
+      res.end(JSON.stringify('You should provide an email and password'))
       return
     }
 
@@ -31,7 +31,7 @@ const postLogin = async (req, res) => {
     }
 
     if (!user) {
-      res.status(404)
+      res.status(401)
       res.end('Invalid credentials')
       return
     }

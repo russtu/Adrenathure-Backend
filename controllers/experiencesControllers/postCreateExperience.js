@@ -3,43 +3,48 @@ const experienceSchema = require('../../validationSchemas/experienceSchema')
 
 
 const postCreateExperience = async (req, res) => {
-    const experienceData = req.body
-    const avatar = req.files.avatar
+  const experienceData = req.body
+
+  let avatar
+  let path
+  if (req.files) {
+    avatar = req.files.avatar
 
     avatar.mv(`${__dirname}/../../public/${avatar.name}`)
-    const path = `${avatar.name}`
+    path = `${avatar.name}`
+  }
 
 
-    if(!experienceData) {
-        res.status(404)
-        res.end('there are not data')
-    }
+  if (!experienceData) {
+    res.status(404)
+    res.end('there are not data')
+  }
 
-    try {
-        await experienceSchema.validateAsync(experienceData)
-    } catch (error) {
-        res.status(404)
-        res.end(error.message)
-        return
-    }
+  try {
+    await experienceSchema.validateAsync(experienceData)
+  } catch (error) {
+    res.status(404)
+    res.end(error.message)
+    return
+  }
 
-    let experience
-    try {
-        experience = await mysqlExperiencesRepository.createExperience(experienceData,path)
-    } catch (error) {
-        res.status(500)
-        res.end(error.message)
-        return
-    }
+  let experience
+  try {
+    experience = await mysqlExperiencesRepository.createExperience(experienceData, path)
+  } catch (error) {
+    res.status(500)
+    res.end(error.message)
+    return
+  }
 
-    if(!experience){
-        res.status(404)
-        res.end(error.message)
-        return
-    }
+  if (!experience) {
+    res.status(404)
+    res.end(error.message)
+    return
+  }
 
-    res.status(200)
-    res.send('Experience created successfully')
+  res.status(200)
+  res.send('Experience created successfully')
 }
 
 module.exports = postCreateExperience

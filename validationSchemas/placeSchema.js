@@ -26,24 +26,31 @@ const placeSchema = Joi.object({
             'string.max': 'Place description is  should be between 3 and 500 characters'
     }),
 
-    coordsLong: Joi
-        .number()
-        .required()
-        .messages({
-            'any.required': 'coordenadas longitude is required',
-            'number.base': 'The value of cords is not a number or could not be cast to a number',
-            'number': 'The value is not a number.',
+  placeDescription: Joi
+    .string()
+    .min(3)
+    .max(500)
+    .required()
+    .messages({
+      'any.required': 'Place description is required',
+      'string.empty': 'Place description can not be empty',
+      'string.min': 'Place description is should be between 3 and 500 characters',
+      'string.max': 'Place description is  should be between 3 and 500 characters'
     }),
 
-    coordsLat: Joi
-        .number()
-        .required()
-        .messages({
-            'any.required': 'price is required',
-            'number.base': 'The value of cords is not a number or could not be cast to a number',
-            'number': 'The value is not a number.',
+  coordsLong: Joi
+    .number()
+    .messages({
+      'number.base': 'The value of cords is not a number or could not be cast to a number',
+      'number': 'The value is not a number.',
     }),
 
+  coordsLat: Joi
+    .number()
+    .messages({
+      'number.base': 'The value of cords is not a number or could not be cast to a number',
+      'number': 'The value is not a number.',
+    }),
 
 })
 

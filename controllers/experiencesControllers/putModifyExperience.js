@@ -5,10 +5,15 @@ const experienceSchema = require('../../validationSchemas/experienceSchema')
 const putModifyExperience = async (req, res) => {
     const experienceData = req.body
     const experienceId = req.params.experienceId
-    const avatar = req.files.avatar
+    let avatar
+    let path
+    if (req.files ){
+      avatar = req.files.avatar
 
     avatar.mv(`${__dirname}/../../public/${avatar.name}`)
-    const path = `${avatar.name}`
+    path = `${avatar.name}`
+    }
+    
 
     if (!experienceData) {
       res.status(400)

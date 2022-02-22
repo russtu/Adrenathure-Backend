@@ -6,6 +6,7 @@ const  { experiencesRoutes }  = require('./routes')
 const  { placesRoutes }  = require('./routes')
 const  { bookingsRoutes }  = require('./routes')
 const  { reviewsRoutes }  = require('./routes')
+const  { datesRoutes }  = require('./routes')
 
 const fileUpload = require('express-fileupload')
 
@@ -36,6 +37,7 @@ app.use('/bookings', bookingsRoutes)
 
 app.use('/reviews', reviewsRoutes)
 
+app.use('/dates', datesRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${BASE_URL}:${PORT}`)

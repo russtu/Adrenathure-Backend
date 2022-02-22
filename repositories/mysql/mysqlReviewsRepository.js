@@ -7,9 +7,8 @@ const voteExists = async (booking_id) => {
 }
 
 
-const postReviewByBookingId = async (userId, vote, booking_id) => {
-  let date = new Date()
-  const results = await connection.query("INSERT INTO reviews (user_id, vote, createdAt, booking_id) VALUES ( ?, ?, ?, ? )  ", [userId, vote, date, booking_id])
+const postReviewByBookingId = async ( vote, booking_id) => {
+  const results = await connection.query("INSERT INTO reviews (vote, booking_id) VALUES ( ?, ? )  ", [ vote, booking_id])
   return results[0]
 }
 
