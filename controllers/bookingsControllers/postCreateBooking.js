@@ -3,6 +3,7 @@ const mysqlBookingsRepository = require('../../repositories/mysql/mysqlBookingsR
 
 const postCreateBooking = async (req, res) => {
     const bookingData = req.body
+
     const experience_id = req.params.experience_id
     const userId = req.user.id
     let booking

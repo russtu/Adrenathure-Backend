@@ -4,6 +4,7 @@ const getExperiencesByPlace = require('./experiencesControllers/getExperiencesBy
 const postCreateExperience = require('./experiencesControllers/postCreateExperience.js')
 const putModifyExperience = require('./experiencesControllers/putModifyExperience.js')
 const deleteExperience = require('./experiencesControllers/deleteExperience.js')
+const getExperiencesByIdDate = require('./experiencesControllers/getExperiencesByIdDate.js')
 
 const getPlaces = require('./placesControllers/getPlaces')
 const getRecommendedPlaces = require('./placesControllers/getRecommendedPlaces')
@@ -33,6 +34,7 @@ const getDates = require('./datesControllers/getDates')
 module.exports = {
     getExperiences,
     getExperiencesById,
+    getExperiencesByIdDate,
     getExperiencesByPlace,
     postCreateExperience,
     putModifyExperience,
