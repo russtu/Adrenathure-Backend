@@ -25,5 +25,4 @@ router.get('/:placeId', getPlaceById)
 // DELETE PLACE BY ID
 router.delete('/admin',isAuthorized, isAdmin, deletePlace )
 
-
 module.exports = router

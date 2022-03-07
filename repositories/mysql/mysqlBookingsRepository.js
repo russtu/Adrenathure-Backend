@@ -22,7 +22,7 @@ const postUserBooking = async (bookingData, experience_id, user_id) => {
 
 
 const getUserBookingsById = async (bookingId) => {
-    const bookings = await connection.query('SELECT bookings.*, experiences.experienceName, dates.experienceDate, dates.experienceHour, experiences.photo, users.firstName, users.lastName, places.placeName FROM bookings LEFT JOIN experiences ON bookings.experience_id = experiences.id LEFT JOIN dates ON bookings.experience_id = dates.experience_id LEFT JOIN users ON bookings.user_id = users.id LEFT JOIN places ON experiences.place_id = places.id WHERE bookings.id = ?', [bookingId])
+    const bookings = await connection.query('SELECT bookings.*, experiences.experienceName, dates.experienceDate, dates.experienceHour, experiences.experiencePhoto, users.firstName, users.lastName, places.placeName FROM bookings LEFT JOIN experiences ON bookings.experience_id = experiences.id LEFT JOIN dates ON bookings.experience_id = dates.experience_id LEFT JOIN users ON bookings.user_id = users.id LEFT JOIN places ON experiences.place_id = places.id WHERE bookings.id = ?', [bookingId])
     return bookings[0][0]
 }
 
