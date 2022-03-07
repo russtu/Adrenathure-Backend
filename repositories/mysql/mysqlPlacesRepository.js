@@ -43,11 +43,17 @@ const getPlacesById = async (placeId) => {
   return places[0][0]
 }
 
+const deletePlace = async (placeId) => {
+  let results = await connection.query("DELETE FROM places WHERE id = ? ", [placeId])
+  return results[0]
+}
+
 
 module.exports = {
   createPlace,
   editPlace,
   getPlaces,
   getPlacesRecommended,
-  getPlacesById
+  getPlacesById,
+  deletePlace
 }

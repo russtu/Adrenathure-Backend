@@ -15,7 +15,7 @@ const postUserBooking = async (bookingData, experience_id, user_id) => {
     let bookingNumber = `${year}${month}-${user_id}${numberRandom}`
 
     const insert = await connection.query('INSERT INTO bookings (bookingDate, bookingNumber, experienceDate, experienceHour, reservedSeats, totalPrice, experience_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [ date, bookingNumber, bookingData.experienceDate, bookingData.experienceHour, bookingData.reservedSeats, bookingData.totalPrice, experience_id, user_id ])
-    const updateDates = await connection.query('UPDATE dates SET availableSeats = ? WHERE experience_id = ?', [ bookingData.availableSeats, experience_id])
+    const updateDates = await connection.query('UPDATE dates SET availableSeats = ? WHERE experience_id = ? AND experienceDate = ?', [ bookingData.availableSeats, experience_id, bookingData.experienceDate])
 
     return (insert[0], updateDates[0])
   }
@@ -38,11 +38,19 @@ const getAdminBookingsById = async (bookingId) => {
     return bookings[0][0]
 }
 
+const deleteBooking = async ( bookingId, exexperience_id, experienceDate, newAvailableSeats ) => {
+  const results = await connection.query("DELETE FROM bookings WHERE id = ? ", [bookingId])
+  const updateDates = await connection.query('UPDATE dates SET availableSeats = ? WHERE experience_id = ? AND experienceDate = ?', [ newAvailableSeats, exexperience_id, experienceDate])
+
+  return results[0]
+}
+
 
 module.exports = {
   getUserBookings,
   postUserBooking,
   getUserBookingsById,
   getUserAllBookings,
-  getAdminBookingsById
+  getAdminBookingsById,
+  deleteBooking
 }

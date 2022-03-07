@@ -6,7 +6,6 @@ const getExperiencesByPlace =  async (req, res) => {
 
     let experience
     try {
-
         experience = await mysqlExperiencesRepository.getExperiencesByPlace(place_id)
 
     } catch (error) {

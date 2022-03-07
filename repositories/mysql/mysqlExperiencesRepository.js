@@ -31,8 +31,8 @@ const getExperienceByIdDate = async (experienceId, experienceDate) => {
 }
 
 const getExperiences = async () => {
-  let results = await connection.query("SELECT experiences.*, places.placeName, dates.experienceDate, dates.experienceHour, dates.totalSeats, dates.availableSeats FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id")
-
+  //let results = await connection.query("SELECT experiences.*, places.placeName, dates.experienceDate, dates.experienceHour, dates.totalSeats, dates.availableSeats FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id")
+  let results = await connection.query("SELECT experiences.*, places.placeName FROM experiences LEFT JOIN places ON experiences.place_id = places.id ")
   return results[0]
 }
 

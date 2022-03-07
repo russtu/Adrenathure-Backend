@@ -6,7 +6,8 @@ const { isAdmin } = require('../middlewares')
 const { getExperiences, getExperiencesById, getExperiencesByIdDate, getExperiencesByPlace, postCreateExperience, putModifyExperience, deleteExperience } = require('../controllers')
 
 
-
+// GET EXPERIENCE BY PLACE
+router.get('/place/:place_id', getExperiencesByPlace )
 
 // GET ALL/FILTER EXPERIENCES
 router.get('/', getExperiences )
@@ -17,17 +18,14 @@ router.get('/:experienceId', getExperiencesById )
 // GET EXPERIENCE BY ID AND DATE
 router.get('/:experienceId/:experienceDate', getExperiencesByIdDate )
 
-// GET EXPERIENCE BY PLACE
-router.get('/place/:place_id', getExperiencesByPlace )
-
 // CREATE NEW EXPERIENCE
-router.post('/', isAuthorized, isAdmin, postCreateExperience )
+router.post('/admin', isAuthorized, isAdmin, postCreateExperience )
 
 // MODIFY EXPERIENCE BY ID
-router.put('/:experienceId', putModifyExperience )
+router.put('/admin/:experienceId', putModifyExperience )
 
 // DELETE EXPERIENCE BY ID
-router.delete('/',isAuthorized, isAdmin, deleteExperience )
+router.delete('/admin',isAuthorized, isAdmin, deleteExperience )
 
 
 module.exports = router

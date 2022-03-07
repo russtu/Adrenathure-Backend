@@ -11,6 +11,7 @@ const getRecommendedPlaces = require('./placesControllers/getRecommendedPlaces')
 const getPlaceById = require('./placesControllers/getPlaceById')
 const postCreatePlace = require('./placesControllers/postCreatePlace')
 const putModifyPlace = require('./placesControllers/putModifyPlace')
+const deletePlace = require('./placesControllers/deletePlace')
 
 const postAReview = require('./reviewsControllers/postAReview')
 const getReviewsAverage = require('./reviewsControllers/getReviewsAverage')
@@ -20,6 +21,8 @@ const postCreateBooking = require('./bookingsControllers/postCreateBooking')
 const getBookingById = require('./bookingsControllers/getBookingsById')
 const getAllBookingsByAdmin = require('./bookingsControllers/getAllBookingsByAdmin')
 const getBookingByIdByAdmin = require('./bookingsControllers/getBookingByIdByAdmin')
+const deleteBooking = require('./bookingsControllers/deleteBooking')
+
 
 const postRegister = require('./usersControllers/postRegister')
 const getEmailValidation = require('./usersControllers/getEmailValidation')
@@ -45,6 +48,7 @@ module.exports = {
     getPlaceById,
     postCreatePlace,
     putModifyPlace,
+    deletePlace,
 
     postAReview,
     getReviewsAverage,
@@ -54,6 +58,7 @@ module.exports = {
     getBookingById,
     getAllBookingsByAdmin,
     getBookingByIdByAdmin,
+    deleteBooking,
 
     postRegister,
     getEmailValidation,
