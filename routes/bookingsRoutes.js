@@ -23,6 +23,4 @@ router.get('/admin/:bookingId', isAuthorized, isAdmin, getBookingByIdByAdmin)
 // DELETE BOOKING BY ID
 router.delete('/admin',isAuthorized, isAdmin, deleteBooking )
 
-
-
 module.exports = router

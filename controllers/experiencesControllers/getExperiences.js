@@ -13,9 +13,7 @@ const getExperiences = async (req, res) => {
       experiences = await mysqlExperiencesRepository.searchExperiences(place, date, lowPrice, highPrice)
     } else {
       experiences = await mysqlExperiencesRepository.getExperiences()
-    }
-
-    // dates = await mysqlDatesRepository.getDateById(experiences[0].id)
+    }   
   } catch (error) {
     res.status(500)
     res.end(error.message)

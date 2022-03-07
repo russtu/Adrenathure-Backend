@@ -48,7 +48,6 @@ const deletePlace = async (placeId) => {
   return results[0]
 }
 
-
 module.exports = {
   createPlace,
   editPlace,

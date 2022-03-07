@@ -1,22 +1,22 @@
 const router = require('express').Router()
 
-const {isAuthorized } = require('../middlewares')
+const { isAuthorized } = require('../middlewares')
 const { isAdmin } = require('../middlewares')
 
 const { getExperiences, getExperiencesById, getExperiencesByIdDate, getExperiencesByPlace, postCreateExperience, putModifyExperience, deleteExperience } = require('../controllers')
 
 
 // GET EXPERIENCE BY PLACE
-router.get('/place/:place_id', getExperiencesByPlace )
+router.get('/place/:place_id', getExperiencesByPlace)
 
 // GET ALL/FILTER EXPERIENCES
-router.get('/', getExperiences )
+router.get('/', getExperiences)
 
 // GET EXPERIENCE BY ID
-router.get('/:experienceId', getExperiencesById )
+router.get('/:experienceId', getExperiencesById)
 
 // GET EXPERIENCE BY ID AND DATE
-router.get('/:experienceId/:experienceDate', getExperiencesByIdDate )
+router.get('/:experienceId/:experienceDate', getExperiencesByIdDate)
 
 // CREATE NEW EXPERIENCE
 router.post('/admin', isAuthorized, isAdmin, postCreateExperience )

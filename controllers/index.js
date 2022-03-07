@@ -33,6 +33,9 @@ const postUploadAvatar = require('./usersControllers/postUploadAvatar')
 
 const getDateById = require('./datesControllers/getDateById')
 const getDates = require('./datesControllers/getDates')
+const postDateByExperienceId = require('./datesControllers/postDateByExperienceId')
+const deleteDates = require('./datesControllers/deleteDates')
+const putEditDates = require('./datesControllers/putEditDates')
 
 module.exports = {
     getExperiences,
@@ -68,5 +71,8 @@ module.exports = {
     postUploadAvatar,
 
     getDateById,
-    getDates
+    getDates,
+    postDateByExperienceId,
+    putEditDates,
+    deleteDates
 }
