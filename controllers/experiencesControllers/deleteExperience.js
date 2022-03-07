@@ -4,8 +4,6 @@ const mysqlExperiencesRepository = require('../../repositories/mysql/mysqlExperi
 
 const deleteExperience = async (req, res) => {
     const experienceId = req.body.expId
-    
-    const userId = req.user.id
 
     if(!experienceId) {
         res.status(404)
@@ -20,12 +18,6 @@ const deleteExperience = async (req, res) => {
         res.end(error.message)
         return
     }
-
-    // if(!deleted){
-    //     res.status(404)
-    //     res.end(error.message)
-    //     return
-    // }
 
     res.status(200)
     res.send('Experience deleted successfully')

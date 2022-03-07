@@ -2,40 +2,28 @@ const Joi = require('joi');
 
 
 const placeSchema = Joi.object({
-    placeName: Joi
-        .string()
-        .min(3)
-        .max(50)
-        .required()
-        .messages({
-            'any.required': 'Place name is required',
-            'string.empty': 'Place name  can not be empty',
-            'string.min': 'Place name is should be between 3 and 50 characters',
-            'string.max': 'Place name is  should be between 3 and 50 characters'
-        }),
-
-    placeDescription: Joi
-        .string()
-        .min(3)
-        .max(900)
-        .required()
-        .messages({
-            'any.required': 'Place description is required',
-            'string.empty': 'Place description can not be empty',
-            'string.min': 'Place description is should be between 3 and 500 characters',
-            'string.max': 'Place description is  should be between 3 and 500 characters'
+  placeName: Joi
+    .string()
+    .min(3)
+    .max(50)
+    .required()
+    .messages({
+      'any.required': 'Place name is required',
+      'string.empty': 'Place name  can not be empty',
+      'string.min': 'Place name is should be between 3 and 50 characters',
+      'string.max': 'Place name is  should be between 3 and 50 characters'
     }),
 
   placeDescription: Joi
     .string()
     .min(3)
-    .max(500)
+    .max(900)
     .required()
     .messages({
       'any.required': 'Place description is required',
       'string.empty': 'Place description can not be empty',
-      'string.min': 'Place description is should be between 3 and 500 characters',
-      'string.max': 'Place description is  should be between 3 and 500 characters'
+      'string.min': 'Place description is should be between 3 and 900 characters',
+      'string.max': 'Place description is  should be between 3 and 900 characters'
     }),
 
   coordsLong: Joi

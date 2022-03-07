@@ -49,7 +49,7 @@ const postLogin = async (req, res) => {
     }
 
     const token = jwt.sign({
-      exp: Math.floor(Date.now() / 1000) + Number(JWT_EXPIRES_AFTER),
+      //exp: Math.floor(Date.now() / 1000) + Number(JWT_EXPIRES_AFTER),
       user: { id: user.id, role: user.role }
     }, JWT_PRIVATE_KEY);
 

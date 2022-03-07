@@ -14,8 +14,6 @@ const experienceSchema = Joi.object({
             'string.max': 'Experience name is  should be between 3 and 50 characters'
         }),
 
-    
-
     experienceDescription: Joi
         .string()
         .min(3)
