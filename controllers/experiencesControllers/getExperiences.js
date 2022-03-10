@@ -13,7 +13,7 @@ const getExperiences = async (req, res) => {
       experiences = await mysqlExperiencesRepository.searchExperiences(place, date, lowPrice, highPrice)
     } else {
       experiences = await mysqlExperiencesRepository.getExperiences()
-    }   
+    }
   } catch (error) {
     res.status(500)
     res.end(error.message)
@@ -25,7 +25,7 @@ const getExperiences = async (req, res) => {
     res.end('there are not data')
     return
   }
-
+  
   res.status(200)
   res.send(experiences)
 }

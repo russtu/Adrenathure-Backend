@@ -17,13 +17,13 @@ const experienceSchema = Joi.object({
     experienceDescription: Joi
         .string()
         .min(3)
-        .max(500)
+        .max(900)
         .required()
         .messages({
             'any.required': 'Experience description is required',
             'string.empty': 'Experience description can not be empty',
-            'string.min': 'Experience description is should be between 3 and 500 characters',
-            'string.max': 'Experience description is  should be between 3 and 500 characters'
+            'string.min': 'Experience description is should be between 3 and 900 characters',
+            'string.max': 'Experience description is  should be between 3 and 900 characters'
     }),
 
     price: Joi

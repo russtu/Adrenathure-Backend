@@ -31,8 +31,8 @@ const postLogin = async (req, res) => {
     }
 
     if (!user) {
-      res.status(401)
-      res.end('Invalid credentials')
+      res.status(403)
+      res.end('The user does not exist')
       return
     }
 
