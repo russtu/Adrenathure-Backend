@@ -1,9 +1,12 @@
 const mysqlExperiencesRepository = require('../../repositories/mysql/mysqlExperiencesRepository')
 const experienceSchema = require('../../validationSchemas/experienceSchema')
+const datesSchema = require('../../validationSchemas/datesShema')
+
 
 
 const postCreateExperience = async (req, res) => {
   const experienceData = req.body
+  const { experienceName, experienceDescription, place_id, price, experienceDate, experienceHour, totalSeats} = req.body
 
   let avatar
   let path
@@ -21,7 +24,15 @@ const postCreateExperience = async (req, res) => {
   }
 
   try {
-    await experienceSchema.validateAsync(experienceData)
+    await experienceSchema.validateAsync({ experienceName, experienceDescription, place_id, price})
+  } catch (error) {
+    res.status(404)
+    res.end(error.message)
+    return
+  }
+
+  try {
+    await datesSchema.validateAsync({ experienceDate, experienceHour, totalSeats})
   } catch (error) {
     res.status(404)
     res.end(error.message)

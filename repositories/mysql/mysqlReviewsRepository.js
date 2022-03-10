@@ -29,7 +29,6 @@ const saveAVGReviewByExperienceId = async (AVG, experience_id) => {
 }
 
 
-
 module.exports = {
     voteExists,
     postReviewByBookingId,

@@ -18,7 +18,6 @@ const deleteBooking = async (req, res) => {
     res.status(500)
     res.end(error.message)
   }
-
   const { experience_id, experienceDate, reservedSeats } = bookings
  
   let availableSeats
@@ -28,9 +27,7 @@ const deleteBooking = async (req, res) => {
     res.status(500)
     res.end(error.message)
   }
-
-  const newAvailableSeats = (reservedSeats + availableSeats.availableSeats)
-
+  const newAvailableSeats = (Number(reservedSeats) + availableSeats)
 
   let deleted
   try {

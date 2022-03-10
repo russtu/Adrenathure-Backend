@@ -6,7 +6,7 @@ const getReviewsAverage = async (req, res) => {
 
     let review
     try {
-        review = await mysqlReviewsRepository.getReviewByExperienceId(experience_id)
+        review = await mysqlReviewsRepository.getAVGReviewByExperienceId(experience_id)
     } catch(error) {
         res.status(400)
         res.end(error.message)

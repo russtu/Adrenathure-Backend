@@ -13,11 +13,10 @@ const postUserBooking = async (bookingData, experience_id, user_id) => {
     let year = date.getFullYear()
     let month = date.getMonth() + 1
     let bookingNumber = `${year}${month}-${user_id}${numberRandom}`
-
-    const insert = await connection.query('INSERT INTO bookings (bookingDate, bookingNumber, experienceDate, experienceHour, reservedSeats, totalPrice, experience_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [ date, bookingNumber, bookingData.experienceDate, bookingData.experienceHour, bookingData.reservedSeats, bookingData.totalPrice, experience_id, user_id ])
+    const insert = await connection.query('INSERT INTO bookings (bookingDate, bookingNumber, experienceDate, experienceHour, reservedSeats, totalPrice, experience_id, experienceName, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [ date, bookingNumber, bookingData.experienceDate, bookingData.experienceHour, bookingData.reservedSeats, bookingData.totalPrice, experience_id, experience_id, user_id ])
     const updateDates = await connection.query('UPDATE dates SET availableSeats = ? WHERE experience_id = ? AND experienceDate = ?', [ bookingData.availableSeats, experience_id, bookingData.experienceDate])
-
-    return (insert[0], updateDates[0])
+    
+    return (insert[0].insertId)
   }
 
 
