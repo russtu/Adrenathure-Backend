@@ -27,7 +27,7 @@ const putEditDates = async (req, res) => {
     res.end(error.message)
     return
   }
-
+  
   res.status(200)
   res.send(`La fecha ha sido modificada correctamente`)
 }

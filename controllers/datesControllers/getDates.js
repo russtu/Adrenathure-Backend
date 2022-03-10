@@ -19,7 +19,7 @@ const getDates = async (req, res) => {
     res.end('there are not data')
     return
   }
-
+  
   res.status(200)
   res.send(dates)
 }
