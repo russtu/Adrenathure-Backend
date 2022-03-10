@@ -27,19 +27,6 @@ const datesSchema = Joi.object({
       'date.format': 'The date does not match the required format.'
     }),
 
-  dateId: Joi
-    .number()
-    .integer()
-    .min(0)
-    .max(100)
-    .required()
-    .messages({
-      'any.required': 'dateId is required',
-      'number.base': 'The value of dateId is not a number or could not be cast to a number',
-      'number.integer': 'The number of dateId is not a valid integer.',
-      'number.min': 'dateId is should be between 0 and 100 characters',
-      'number.max': 'dateId is  should be between 0 and 100 characters'
-    }),
 
   experienceHour: Joi
     .string()

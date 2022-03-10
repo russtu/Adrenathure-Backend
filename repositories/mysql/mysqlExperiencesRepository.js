@@ -4,14 +4,15 @@ const connection = require('./mysqlConnection')
 
 
 const createExperience = async (experienceData, path) => {
+  let availableSeats = experienceData.totalSeats
   let resultsExp
   let resultsDat
   if (path) {
     resultsExp = await connection.query("INSERT INTO experiences (experienceName, experienceDescription, price, experiencePhoto, place_id) VALUES ( ?, ?, ?, ?, ? )  ", [experienceData.experienceName, experienceData.experienceDescription, experienceData.price, path, experienceData.place_id])
-    resultsDat = await connection.query("INSERT INTO dates (experience_id, totalSeats, experienceDate,  experienceHour) VALUES (?, ?, ?, ? )  ", [resultsExp[0].insertId, experienceData.totalSeats, experienceData.experienceDate, experienceData.experienceHour])
+    resultsDat = await connection.query("INSERT INTO dates (experience_id, totalSeats, availableSeats, experienceDate,  experienceHour) VALUES (?, ?, ?, ?, ? )  ", [resultsExp[0].insertId, experienceData.totalSeats, availableSeats, experienceData.experienceDate, experienceData.experienceHour])
   } else {
     resultsExp = await connection.query("INSERT INTO experiences (experienceName, experienceDescription, price, place_id) VALUES ( ?, ?, ?, ? )  ", [experienceData.experienceName, experienceData.experienceDescription, experienceData.price, experienceData.place_id])
-    resultsDat = await connection.query("INSERT INTO dates (experience_id, totalSeats, experienceDate,  experienceHour) VALUES (?, ?, ?, ? )  ", [resultsExp[0].insertId, experienceData.totalSeats, experienceData.experienceDate, experienceData.experienceHour])
+    resultsDat = await connection.query("INSERT INTO dates (experience_id, totalSeats, availableSeats, experienceDate,  experienceHour) VALUES (?, ?, ?, ?, ? )  ", [resultsExp[0].insertId, experienceData.totalSeats, availableSeats, experienceData.experienceDate, experienceData.experienceHour])
 
   }
   return (resultsExp[0], resultsDat[0])
@@ -32,8 +33,8 @@ const getExperienceByIdDate = async (experienceId, experienceDate) => {
 }
 
 const getExperiences = async () => {
-  let results = await connection.query("SELECT experiences.*, places.placeName, dates.experienceDate, dates.experienceHour, dates.totalSeats, dates.availableSeats FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id")
-
+  // let results = await connection.query("SELECT experiences.*, places.placeName, dates.experienceDate, dates.experienceHour, dates.totalSeats, dates.availableSeats FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id")
+  let results = await connection.query("SELECT experiences.*, places.placeName FROM experiences LEFT JOIN places ON experiences.place_id = places.id")
   return results[0]
 }
 
@@ -52,12 +53,12 @@ const editExperience = async (experienceData, experienceId, path) => {
   let resultsExp
   if (path) {
     resultsExp = await connection.query("UPDATE experiences SET experienceName = ?, experienceDescription = ?, price = ?, experiencePhoto = ?, place_id = ? WHERE id = ? ", [experienceData.experienceName, experienceData.experienceDescription, experienceData.price, path, experienceData.place_id, experienceId])
-    
+
   } else {
     resultsExp = await connection.query("UPDATE experiences SET experienceName = ?, experienceDescription = ?, price = ?,  place_id = ? WHERE experiences.id = ? ", [experienceData.experienceName, experienceData.experienceDescription, experienceData.price, experienceData.place_id, experienceId])
-    
+
   }
-  return (resultsExp )
+  return (resultsExp)
 }
 
 const searchExperiences = async (place, date, lowPrice, highPrice) => {
