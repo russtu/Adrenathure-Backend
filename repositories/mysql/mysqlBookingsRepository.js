@@ -33,7 +33,9 @@ const getUserAllBookings = async () => {
 
 
 const getAdminBookingsById = async (bookingId) => {
+  console.log(bookingId)
     const bookings = await connection.query('SELECT * FROM bookings WHERE id = ?', [bookingId])
+    console.log(bookings[0][0])
     return bookings[0][0]
 }
 
