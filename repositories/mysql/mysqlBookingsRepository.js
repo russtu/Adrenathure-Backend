@@ -13,21 +13,21 @@ const postUserBooking = async (bookingData, experience_id, user_id) => {
     let year = date.getFullYear()
     let month = date.getMonth() + 1
     let bookingNumber = `${year}${month}-${user_id}${numberRandom}`
-    const insert = await connection.query('INSERT INTO bookings (bookingDate, bookingNumber, experienceDate, experienceHour, reservedSeats, totalPrice, experience_id, experienceName, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [ date, bookingNumber, bookingData.experienceDate, bookingData.experienceHour, bookingData.reservedSeats, bookingData.totalPrice, experience_id, experience_id, user_id ])
+    const insert = await connection.query('INSERT INTO bookings (bookingDate, bookingNumber, experienceDate, experienceHour, reservedSeats, totalPrice, experience_id, experienceName, placeName, experiencePhoto, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [ date, bookingNumber, bookingData.experienceDate, bookingData.experienceHour, bookingData.reservedSeats, bookingData.totalPrice, experience_id, bookingData.experienceName, bookingData.place_id, bookingData.experiencePhoto, user_id ])
     const updateDates = await connection.query('UPDATE dates SET availableSeats = ? WHERE experience_id = ? AND experienceDate = ?', [ bookingData.availableSeats, experience_id, bookingData.experienceDate])
-    
     return (insert[0].insertId)
   }
 
 
 const getUserBookingsById = async (bookingId) => {
-    const bookings = await connection.query('SELECT bookings.*, experiences.experienceName, dates.experienceDate, dates.experienceHour, experiences.experiencePhoto, users.firstName, users.lastName, places.placeName FROM bookings LEFT JOIN experiences ON bookings.experience_id = experiences.id LEFT JOIN dates ON bookings.experience_id = dates.experience_id LEFT JOIN users ON bookings.user_id = users.id LEFT JOIN places ON experiences.place_id = places.id WHERE bookings.id = ?', [bookingId])
+    const bookings = await connection.query('SELECT bookings.*,  DATE_FORMAT(bookings.experienceDate, "%Y/%m/%d") AS experienceDate, DATE_FORMAT(bookings.bookingDate, "%Y/%m/%d") AS bookingDate, users.firstName, users.lastName FROM bookings  LEFT JOIN users ON bookings.user_id = users.id  WHERE bookings.id = ?', [bookingId])
+
     return bookings[0][0]
 }
 
 
 const getUserAllBookings = async () => {
-    const bookings = await connection.query('SELECT * FROM bookings')
+    const bookings = await connection.query('SELECT DATE_FORMAT(bookings.bookingDate, "%Y-%m-%d") AS bookingDate, bookingNumber, experienceName, totalPrice, reservedSeats, id FROM bookings')
     return bookings[0]
 }
 
