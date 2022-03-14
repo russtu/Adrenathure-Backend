@@ -21,7 +21,7 @@ const createExperience = async (experienceData, path) => {
 
 const getExperienceById = async (experienceId) => {
 
-  let results = await connection.query("SELECT experiences.*, places.placeName, dates.idDate, dates.experienceDate, dates.experienceHour, dates.totalSeats, dates.availableSeats FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id WHERE experiences.id = ? ", [experienceId])
+  let results = await connection.query('SELECT experiences.*, places.placeName, dates.idDate, DATE_FORMAT(dates.experienceDate, "%Y-%m-%d") AS experienceDate, dates.experienceHour, dates.totalSeats, dates.availableSeats FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id WHERE experiences.id = ? ', [experienceId])
 
   return results[0]
 }

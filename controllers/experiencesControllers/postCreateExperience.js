@@ -19,7 +19,7 @@ const postCreateExperience = async (req, res) => {
 
 
   if (!experienceData) {
-    res.status(404)
+    res.status(400)
     res.end('there are not data')
   }
 

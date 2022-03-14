@@ -1,4 +1,3 @@
-const { getExperiencesByIdDate } = require('../../controllers')
 const connection = require('./mysqlConnection')
 
 
@@ -14,7 +13,7 @@ const getDateByIdDate = async (experienceId, experienceDate) => {
 
 const getDates = async () => {
 
-  const dates = await connection.query('SELECT * FROM dates')
+  const dates = await connection.query('SELECT idDate, DATE_FORMAT(experienceDate, " %Y-%m-%d") AS experienceDate FROM dates')
   return dates[0]
 }
 const postDateByExperienceId = async (datesData, experience_id ) => {
