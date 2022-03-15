@@ -13,7 +13,6 @@ const putModifyExperience = async (req, res) => {
     avatar.mv(`${__dirname}/../../public/${avatar.name}`)
     path = `${avatar.name}`
     }
-    
 
     if (!experienceData) {
       res.status(400)
@@ -39,7 +38,7 @@ const putModifyExperience = async (req, res) => {
     }
     
     res.status(200)
-    res.send(`La experiencia ha sido modificada correctamente`)
+    res.send('La experiencia ha sido modificada correctamente')
   }
 
 module.exports = putModifyExperience
