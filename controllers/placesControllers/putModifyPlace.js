@@ -4,6 +4,7 @@ const placeSchema = require('../../validationSchemas/placeSchema')
 
 const putModifyPlace = async (req, res) => {
   const placeData = req.body
+
   const placeId = req.params.placeId
   let avatar
   let path

@@ -18,7 +18,7 @@ const getDates = async () => {
 }
 const postDateByExperienceId = async (datesData, experience_id ) => {
 
-  const results = await connection.query('INSERT INTO dates ( experienceDate, experienceHour, totalSeats, experience_id ) VALUES (?, ?, ?, ?)', [ datesData.experienceDate, datesData.experienceHour, datesData.totalSeats, experience_id ])
+  const results = await connection.query('INSERT INTO dates ( experienceDate, experienceHour, totalSeats, availableSeats, experience_id ) VALUES (?, ?, ?, ?, ?)', [ datesData.experienceDate, datesData.experienceHour, datesData.totalSeats, datesData.totalSeats, experience_id ])
 
   return (results[0])
 }

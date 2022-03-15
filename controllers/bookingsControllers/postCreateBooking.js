@@ -5,7 +5,7 @@ const postCreateBooking = async (req, res) => {
   const bookingData = req.body
 
   const {reservedSeats, experienceDate} = bookingData
-  
+
   const experience_id = Number(req.params.experience_id)
   const userId = req.user.id
 
@@ -30,7 +30,7 @@ const postCreateBooking = async (req, res) => {
     res.end(error.message)
     return
   }
-  
+
   res.status(200)
   res.send(JSON.stringify({message:'Experience booking created successfully',bookingId :booking}))
 }

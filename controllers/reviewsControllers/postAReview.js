@@ -4,7 +4,8 @@ const mysqlReviewsRepository = require('../../repositories/mysql/mysqlReviewsRep
 const postAReview = async (req, res) => {
     const userId = req.user.id
     const { booking_id } = req.params
-    const { vote } = req.body
+    const { rate } = req.body
+    rateDivided = (rate/20)
 
     let voteAlreadyExists
     try {
@@ -23,7 +24,7 @@ const postAReview = async (req, res) => {
 
     let review
     try {
-        review = await mysqlReviewsRepository.postReviewByBookingId( Number(vote), booking_id)
+        review = await mysqlReviewsRepository.postReviewByBookingId( Number(rateDivided), booking_id)
     } catch(error) {
         res.status(500)
         res.end(error.message)

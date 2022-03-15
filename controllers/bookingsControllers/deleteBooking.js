@@ -19,7 +19,7 @@ const deleteBooking = async (req, res) => {
     res.end(error.message)
   }
   const { experience_id, experienceDate, reservedSeats } = bookings
- 
+
   let availableSeats
   try {
     availableSeats = await mysqlDatesRepository.getDateByIdDate(experience_id, experienceDate)
