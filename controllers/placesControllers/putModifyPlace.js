@@ -4,7 +4,7 @@ const placeSchema = require('../../validationSchemas/placeSchema')
 
 const putModifyPlace = async (req, res) => {
   const placeData = req.body
-  console.log(placeData)
+
   const placeId = req.params.placeId
   let avatar
   let path
@@ -22,13 +22,13 @@ const putModifyPlace = async (req, res) => {
     return
   }
 
-  // try {
-  //   await placeSchema.validateAsync(placeData)
-  // } catch (error) {
-  //   res.status(404)
-  //   res.end(error.message)
-  //   return
-  // }
+  try {
+    await placeSchema.validateAsync(placeData)
+  } catch (error) {
+    res.status(404)
+    res.end(error.message)
+    return
+  }
 
   let editedPlace
   try {
