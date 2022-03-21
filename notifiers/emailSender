@@ -20,7 +20,7 @@ const accountConfirmationEmail = async ({ sendTo, registrationCode }) => {
       from: `${SENDER_EMAIL} <${SENDER_EMAIL}>`,
       to: sendTo,
       subject: "Confirm your account",
-      html: `<p>Click <a href="http://localhost:3000/users/validate/${registrationCode}">here</a> to confirm your account</p>`//en vez de apuntar al back nos lleva a la pagina de front
+      html: `<div><p>Click <a href="http://localhost:3001/emailValidatePage/${registrationCode}">here</a> to confirm your account</p></div>`//en vez de apuntar al back nos lleva a la pagina de front
     });
   }
 
