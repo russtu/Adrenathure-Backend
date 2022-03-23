@@ -33,7 +33,7 @@ const getExperienceByIdDate = async (experienceId, experienceDate) => {
 }
 
 const getExperiences = async () => {
-  // let results = await connection.query("SELECT experiences.*, places.placeName, dates.experienceDate, dates.experienceHour, dates.totalSeats, dates.availableSeats FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id")
+
   let results = await connection.query("SELECT experiences.*, places.placeName FROM experiences LEFT JOIN places ON experiences.place_id = places.id")
   return results[0]
 }
@@ -61,14 +61,14 @@ const editExperience = async (experienceData, experienceId, path) => {
   return (resultsExp)
 }
 
-const searchExperiences = async (place, date, lowPrice, highPrice) => {
+const searchExperiences = async (place, dateFrom, dateTo, lowPrice, highPrice) => {
   let results
   const params = []
   const conditions = []
 
   let query = "SELECT experiences.*,places.* ,dates.* FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id"
 
-  if (place || date || lowPrice || highPrice) {
+  if (place || dateFrom || dateTo || lowPrice || highPrice) {
     query += " WHERE "
   }
 
@@ -77,9 +77,20 @@ const searchExperiences = async (place, date, lowPrice, highPrice) => {
     params.push(place)
   }
 
-  if (date) {
-    conditions.push(" dates.experienceDate = ?")
-    params.push(date)
+  // if (date) {
+  //   conditions.push(" dates.experienceDate = ?")
+  //   params.push(date)
+  // }
+  if (dateFrom && dateTo) {
+    conditions.push(" dates.experienceDate BETWEEN ? AND ?")
+    params.push(dateFrom)
+    params.push(dateTo)
+  } else if (dateFrom) {
+    conditions.push(" dates.experienceDate >= ?")
+    params.push(dateFrom)
+  } else if (dateTo) {
+    conditions.push(" dates.experienceDate <= ?")
+    params.push(dateTo)
   }
 
   if (lowPrice && highPrice) {
