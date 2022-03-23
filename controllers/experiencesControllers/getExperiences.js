@@ -4,13 +4,12 @@ const mysqlDatesRepository = require('../../repositories/mysql/mysqlDatesReposit
 
 
 const getExperiences = async (req, res) => {
-  const { place, date, lowPrice, highPrice } = req.query
-
+  const { place, dateTo, dateFrom, lowPrice, highPrice } = req.query
   let experiences
   let dates
   try {
-    if (place || date || lowPrice || highPrice) {
-      experiences = await mysqlExperiencesRepository.searchExperiences(place, date, lowPrice, highPrice)
+    if (place || dateFrom || dateTo || lowPrice || highPrice) {
+      experiences = await mysqlExperiencesRepository.searchExperiences(place, dateFrom , dateTo , lowPrice, highPrice)
     } else {
       experiences = await mysqlExperiencesRepository.getExperiences()
     }

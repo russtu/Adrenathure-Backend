@@ -2,7 +2,7 @@ const connection = require('./mysqlConnection')
 
 
 const getUserBookings = async (userId) => {
-    const bookings = await connection.query('SELECT * FROM bookings WHERE user_id = ?', [userId])
+    const bookings = await connection.query('SELECT * FROM bookings WHERE user_id = ? ORDER BY bookings.bookingDate DESC', [userId])
     return bookings[0]
 }
 
@@ -21,13 +21,12 @@ const postUserBooking = async (bookingData, experience_id, user_id) => {
 
 const getUserBookingsById = async (bookingId) => {
     const bookings = await connection.query('SELECT bookings.*,  DATE_FORMAT(bookings.experienceDate, "%Y/%m/%d") AS experienceDate, DATE_FORMAT(bookings.bookingDate, "%Y/%m/%d") AS bookingDate, users.firstName, users.lastName FROM bookings  LEFT JOIN users ON bookings.user_id = users.id  WHERE bookings.id = ?', [bookingId])
-
     return bookings[0][0]
 }
 
 
 const getUserAllBookings = async () => {
-    const bookings = await connection.query('SELECT DATE_FORMAT(bookings.bookingDate, "%Y-%m-%d") AS bookingDate, bookingNumber, experienceName, totalPrice, reservedSeats, id FROM bookings')
+    const bookings = await connection.query('SELECT DATE_FORMAT(bookings.bookingDate, "%Y-%m-%d") AS bookingDate, bookingNumber, experienceName, totalPrice, reservedSeats, id FROM bookings ORDER BY bookings.bookingDate DESC')
     return bookings[0]
 }
 
