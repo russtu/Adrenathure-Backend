@@ -26,7 +26,7 @@ const getUserBookingsById = async (bookingId) => {
 
 
 const getUserAllBookings = async () => {
-    const bookings = await connection.query('SELECT DATE_FORMAT(bookings.bookingDate, "%Y-%m-%d") AS bookingDate, bookingNumber, experienceName, totalPrice, reservedSeats, id FROM bookings ORDER BY bookings.bookingDate DESC')
+    const bookings = await connection.query('SELECT DATE_FORMAT(bookings.bookingDate, "%Y-%m-%d") AS bookingDate, bookingNumber, experienceName, totalPrice, reservedSeats, placeName, DATE_FORMAT(bookings.experienceDate, "%Y-%m-%d") AS experienceDate, TIME_FORMAT(bookings.experienceHour, "%H:%m") AS experienceHour, user_id, id FROM bookings')
     return bookings[0]
 }
 

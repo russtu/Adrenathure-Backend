@@ -2,18 +2,33 @@ const mysqlReviewsRepository = require('../../repositories/mysql/mysqlReviewsRep
 
 
 const postAReview = async (req, res) => {
-    const userId = req.user.id
     const { booking_id } = req.params
-    const { rate } = req.body
-    rateDivided = (rate/20)
+    const { rate, date } = req.body
+    let actualDate = new Date(date)
+    let rateDivided = (rate/20)
+
+    let tooEarlyVote
+    try {
+      tooEarlyVote = await mysqlReviewsRepository.earlyVote(booking_id)
+    } catch (error) {
+      res.status(500)
+      res.end(error.message)
+      return
+    }
+
+    if (tooEarlyVote >= actualDate) {
+      res.status(400)
+      res.end('You cannot vote before attending the event')
+      return
+    }
 
     let voteAlreadyExists
     try {
-        voteAlreadyExists = await mysqlReviewsRepository.voteExists(booking_id)
+      voteAlreadyExists = await mysqlReviewsRepository.voteExists(booking_id)
     } catch (error) {
-        res.status(500)
-        res.end(error.message)
-        return
+      res.status(500)
+      res.end(error.message)
+      return
     }
 
     if (voteAlreadyExists) {

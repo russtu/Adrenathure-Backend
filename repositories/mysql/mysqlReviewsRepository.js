@@ -1,5 +1,10 @@
 const connection = require('./mysqlConnection')
 
+const earlyVote = async (booking_id) => {
+  const verifyDate = await connection.query("SELECT experienceDate FROM bookings WHERE id = ?", [booking_id])
+
+    return verifyDate[0][0].experienceDate
+}
 
 const voteExists = async (booking_id) => {
   const verifyVote = await connection.query("SELECT * FROM reviews WHERE booking_id = ?", [booking_id])
@@ -34,5 +39,6 @@ module.exports = {
     postReviewByBookingId,
     getExperienceId,
     getAVGReviewByExperienceId,
-    saveAVGReviewByExperienceId
+    saveAVGReviewByExperienceId,
+    earlyVote
 }
