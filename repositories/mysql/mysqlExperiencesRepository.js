@@ -97,8 +97,6 @@ const searchExperiences = async (place, dateFrom, dateTo, lowPrice, highPrice) =
     conditions.push(" experiences.price BETWEEN ? AND ?")
     params.push(lowPrice)
     params.push(highPrice)
-    console.log(lowPrice)
-    console.log(highPrice)
   } else if (lowPrice) {
     conditions.push(" experiences.price >= ?")
     params.push(lowPrice)
