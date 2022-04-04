@@ -41,7 +41,11 @@ const getUserById = async (userId) => {
 
 
 const editUser = async (user, userId) => {
-    const result = await connection.query("UPDATE users SET firstName = ?, lastName = ?, email = ?, password = ? WHERE id = ?", [user.firstName, user.lastName, user.email, user.password, userId])
+  if(user.password) {
+        const result = await connection.query("UPDATE users SET  password = ? WHERE id = ?", [ user.password, userId])
+  } else {
+    const result = await connection.query("UPDATE users SET firstName = ?, lastName = ?, email = ?  WHERE id = ?", [user.firstName, user.lastName, user.email, userId])
+  }
 }
 
 const postAvatar = async (path,userId) => {
