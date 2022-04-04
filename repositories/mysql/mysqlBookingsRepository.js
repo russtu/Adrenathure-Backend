@@ -20,7 +20,7 @@ const postUserBooking = async (bookingData, experience_id, user_id) => {
 
 
 const getUserBookingsById = async (bookingId) => {
-    const bookings = await connection.query('SELECT bookings.*,  DATE_FORMAT(bookings.experienceDate, "%Y/%m/%d") AS experienceDate, DATE_FORMAT(bookings.bookingDate, "%Y/%m/%d") AS bookingDate, users.firstName, users.lastName FROM bookings  LEFT JOIN users ON bookings.user_id = users.id  WHERE bookings.id = ?', [bookingId])
+    const bookings = await connection.query('SELECT bookings.*,  DATE_FORMAT(bookings.experienceDate, "%Y/%m/%d") AS experienceDate, DATE_FORMAT(bookings.bookingDate, "%Y/%m/%d") AS bookingDate, TIME_FORMAT(bookings.experienceHour, "%H:%m") as experienceHour, users.firstName, users.lastName FROM bookings  LEFT JOIN users ON bookings.user_id = users.id  WHERE bookings.id = ?', [bookingId])
     return bookings[0][0]
 }
 
