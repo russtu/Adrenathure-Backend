@@ -5,7 +5,7 @@ require('dotenv').config()
 
 const emailSender = require('../../notifiers/emailSender')
 const mysqlUsersRepository = require('../../repositories/mysql/mysqlUsersRepository')
-const userSchema = require('../../validationSchemas/userSchema')
+const userSchemaRegister = require('../../validationSchemas/userSchemaRegister')
 
 const app = express()
 
@@ -18,7 +18,7 @@ const postRegister = async (req, res) => {
     const user = req.body
 
     try {
-        await userSchema.validateAsync(user)
+        await userSchemaRegister.validateAsync(user)
     } catch (error) {
         res.status(422)
         res.end(error.message)

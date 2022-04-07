@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-const userSchema = Joi.object({
+const userSchemaPass = Joi.object({
 
   password: Joi
     .string()
@@ -14,5 +14,4 @@ const userSchema = Joi.object({
 
 })
 
-
-module.exports = userSchema
+module.exports = userSchemaPass
