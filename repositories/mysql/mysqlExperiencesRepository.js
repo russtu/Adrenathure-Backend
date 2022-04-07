@@ -66,7 +66,8 @@ const searchExperiences = async (place, dateFrom, dateTo, lowPrice, highPrice) =
   const params = []
   const conditions = []
 
-  let query = "SELECT experiences.*,places.* ,dates.* FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id"
+  let query = "SELECT experiences.* FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id"
+  // let query = "SELECT experiences.*,places.* ,dates.* FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id"
 
   if (place || dateFrom || dateTo || lowPrice || highPrice) {
     query += " WHERE "
@@ -77,10 +78,6 @@ const searchExperiences = async (place, dateFrom, dateTo, lowPrice, highPrice) =
     params.push(place)
   }
 
-  // if (date) {
-  //   conditions.push(" dates.experienceDate = ?")
-  //   params.push(date)
-  // }
   if (dateFrom && dateTo) {
     conditions.push(" dates.experienceDate BETWEEN ? AND ?")
     params.push(dateFrom)
