@@ -21,7 +21,7 @@ const createExperience = async (experienceData, path) => {
 
 const getExperienceById = async (experienceId) => {
 
-  let results = await connection.query('SELECT experiences.*, places.placeName, dates.idDate, DATE_FORMAT(dates.experienceDate, "%Y-%m-%d") AS experienceDate, dates.experienceHour, dates.totalSeats, dates.availableSeats FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id WHERE experiences.id = ? ', [experienceId])
+  let results = await connection.query('SELECT experiences.*, places.placeName, dates.idDate, DATE_FORMAT(dates.experienceDate, "%Y-%m-%d") AS experienceDate, TIME_FORMAT(dates.experienceHour, "%H:%m" ) AS experienceHour, dates.totalSeats, dates.availableSeats FROM experiences LEFT JOIN places ON experiences.place_id = places.id LEFT JOIN dates ON experiences.id = dates.experience_id WHERE experiences.id = ? ', [experienceId])
 
   return results[0]
 }
@@ -94,8 +94,6 @@ const searchExperiences = async (place, dateFrom, dateTo, lowPrice, highPrice) =
     conditions.push(" experiences.price BETWEEN ? AND ?")
     params.push(lowPrice)
     params.push(highPrice)
-    console.log(lowPrice)
-    console.log(highPrice)
   } else if (lowPrice) {
     conditions.push(" experiences.price >= ?")
     params.push(lowPrice)
