@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer")
 require('dotenv').config()
 
-const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SENDER_EMAIL } = process.env
+const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SENDER_EMAIL,URL_EMAIL_SENDER_LOCAL, URL_EMAIL_SENDER_DEPLOY } = process.env
 
 // reusable transporter object using the default SMTP transport
 let transporter = nodemailer.createTransport({
@@ -20,7 +20,7 @@ const accountConfirmationEmail = async ({ sendTo, registrationCode }) => {
       from: `${SENDER_EMAIL} <${SENDER_EMAIL}>`,
       to: sendTo,
       subject: "Confirm your account",
-      html: `<div><p>Click <a href="http://localhost:3001/emailValidatePage/${registrationCode}">here</a> to confirm your account</p></div>`//en vez de apuntar al back nos lleva a la pagina de front
+      html: `<div><p>Click <a href="${URL_EMAIL_SENDER_LOCAL}/emailValidatePage/${registrationCode}">here</a> to confirm your account</p></div>`//en vez de apuntar al back nos lleva a la pagina de front.
     });
   }
 
